@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="ru.ildarovichm.howmuchcash.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_home_to_inputObjectsFragment"
+            app:destination="@id/inputObjectsFragment" />
+        <argument
+            android:name="objectUnit"
+            app:argType="ru.ildarovichm.howmuchcash.ObjectUnit" />
+        <argument
+            android:name="unit"
+            app:argType="ru.ildarovichm.howmuchcash.Unit" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_slideshow"
+            app:destination="@id/nav_slideshow" />
+        <action
+            android:id="@+id/action_nav_home_to_settingsMenuFragment"
+            app:destination="@id/settingsMenuFragment" />
+        <action
+            android:id="@+id/action_nav_home_to_calculateSalaryFragment"
+            app:destination="@id/calculateSalaryFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_gallery"
+        android:name="ru.ildarovichm.howmuchcash.ui.pricesInput.PricesInputFragment"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/fragment_pricesinput" >
+        <action
+            android:id="@+id/action_nav_gallery_to_nav_slideshow"
+            app:destination="@id/nav_slideshow" />
+        <argument
+            android:name="price"
+            app:argType="ru.ildarovichm.howmuchcash.Price" />
+        <action
+            android:id="@+id/action_nav_gallery_to_settingsMenuFragment"
+            app:destination="@id/settingsMenuFragment" />
+        <action
+            android:id="@+id/action_nav_gallery_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="ru.ildarovichm.howmuchcash.ui.slideshow.SlideshowFragment"
+        android:label="@string/menu_settings"
+        tools:layout="@layout/fragment_slideshow" >
+        <argument
+            android:name="price"
+            app:argType="ru.ildarovichm.howmuchcash.Price" />
+        <action
+            android:id="@+id/action_nav_slideshow_to_nav_home"
+            app:destination="@id/nav_home" />
+        <action
+            android:id="@+id/action_nav_slideshow_to_settingsMenuFragment"
+            app:destination="@id/settingsMenuFragment" />
+        <action
+            android:id="@+id/action_nav_slideshow_to_nav_home2"
+            app:destination="@id/nav_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/inputObjectsFragment"
+        android:name="ru.ildarovichm.howmuchcash.ui.main.InputObjectsFragment"
+        android:label="@string/menu_input_objects"
+        tools:layout="@layout/fragment_input_objects">
+        <action
+            android:id="@+id/action_inputObjectsFragment_to_nav_home"
+            app:destination="@id/nav_home" />
+        <argument
+            android:name="objectUnit"
+            app:argType="ru.ildarovichm.howmuchcash.ObjectUnit" />
+        <argument
+            android:name="unit"
+            app:argType="ru.ildarovichm.howmuchcash.Unit" />
+        <action
+            android:id="@+id/action_inputObjectsFragment_to_settingsMenuFragment"
+            app:destination="@id/settingsMenuFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsMenuFragment"
+        android:name="ru.ildarovichm.howmuchcash.ui.menusettings.SettingsMenuFragment"
+        android:label="@string/menu_settings"
+        tools:layout="@layout/fragment_settings_menu">
+        <action
+            android:id="@+id/action_settingsMenuFragment_to_nav_gallery"
+            app:destination="@id/nav_gallery" />
+        <action
+            android:id="@+id/action_settingsMenuFragment_to_readWriteObjectFragment"
+            app:destination="@id/readWriteObjectFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/calculateSalaryFragment"
+        android:name="ru.ildarovichm.howmuchcash.ui.calculate.CalculateSalaryFragment"
+        android:label="@string/menu_calculateSalary"
+        tools:layout="@layout/fragment_calculate_salary" >
+        <action
+            android:id="@+id/action_calculateSalaryFragment_to_nav_home"
+            app:destination="@id/nav_home" />
+        <action
+            android:id="@+id/action_calculateSalaryFragment_to_nav_slideshow"
+            app:destination="@id/nav_slideshow" />
+    </fragment>
+    <fragment
+        android:id="@+id/readWriteObjectFragment"
+        android:name="ru.ildarovichm.howmuchcash.ui.readwriteobjects.ReadWriteObjectFragment"
+        android:label="@string/menu_read_write_objects"
+        tools:layout="@layout/fragment_read_write_object">
+        <action
+            android:id="@+id/action_readWriteObjectFragment_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
+</navigation>

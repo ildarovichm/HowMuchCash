@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.home.HomeFragment">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/annotationForInputObjects"
+        android:textAlignment="center"
+        android:textColor="@color/material_dynamic_neutral50"
+        app:layout_constraintBottom_toTopOf="@+id/buttonAddLift"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.227"
+        tools:text="@string/annotationForInputObjects"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/buttonAddLift"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
+        android:background="@drawable/custom_button"
+        android:text="@string/buttonAddLift"
+        android:textAlignment="center"
+        android:textColor="@color/material_dynamic_neutral10"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.118" />
+
+    <HorizontalScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="180dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonAddLift">
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.985">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!--            <WebView-->
+                <!--                android:id="@+id/webView"-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="600dp" />-->
+                <TableLayout
+                    android:id="@+id/table1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:ignore="UselessParent">
+
+                    <TableRow
+                        android:id="@+id/tableRowHeader"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:ignore="UselessParent">
+
+                        <TextView
+                            android:id="@+id/textViewTableRowAddressH"
+                            android:layout_width="280dp"
+                            android:layout_height="match_parent"
+                            android:text="\nАдрес"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/activity_vertical_margin" />
+
+                        <TextView
+                            android:id="@+id/textViewTableRowNumberOfFloors"
+                            android:layout_width="70dp"
+                            android:layout_height="match_parent"
+                            android:text="\nКол-во остановок" />
+
+                        <CheckBox
+                            android:id="@+id/checkBoxTO"
+                            android:layout_width="65dp"
+                            android:layout_height="match_parent"
+                            android:text="ТО" />
+
+                        <CheckBox
+                            android:id="@+id/checkBoxDel"
+                            android:layout_width="40dp"
+                            android:layout_height="match_parent"
+                            android:text="" />
+
+                        <Button
+                            android:id="@+id/button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Удалить" />
+
+                    </TableRow>
+                </TableLayout>
+            </LinearLayout>
+        </ScrollView>
+    </HorizontalScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
