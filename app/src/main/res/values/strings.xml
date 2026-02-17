@@ -37,6 +37,7 @@
     <string name="typeOfObject">\nТип объекта</string>
     <string name="parkingAvailability">\nНаличие паркинга</string>
     <string name="countNumberOfFloorsOfObject">\nКол-во остановок</string>
+    <string name="license">Copyright (c) 2026 Gizdatullin M.I.\nLicensed under the MIT License</string>
     <string-array name="typeOfObjectUnitArray">
         <item>Лифт</item>
         <item>Подъемник</item>

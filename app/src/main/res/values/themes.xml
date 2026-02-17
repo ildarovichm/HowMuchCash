@@ -9,7 +9,7 @@
 
         <!-- Цвета для текста на цветных фонах -->
         <item name="colorOnPrimary">@android:color/black</item>           <!-- Текст на #C8CB01 -->
-        <item name="colorOnSecondary">@android:color/white</item>         <!-- Текст на втор. цвете -->
+        <item name="colorOnSecondary">@color/mainBackground</item>         <!-- Текст на втор. цвете -->
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColor">@color/white</item>
         <!-- Фон по умолчанию для активити -->

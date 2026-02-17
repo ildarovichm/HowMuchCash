@@ -34,13 +34,54 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="8dp" />
 
+    <!-- Блок с общей информацией -->
+    <LinearLayout
+        android:id="@+id/ll_stats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:background="@drawable/background_card"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/buttonAddLift">
+
+        <TextView
+            android:id="@+id/text_total_objects"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Объектов: 0"
+            android:textSize="14sp"
+            android:textColor="@android:color/white"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/text_total_addresses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Адресов: 0"
+            android:textSize="14sp"
+            android:textColor="@android:color/white"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/text_total_to"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ТО: 0"
+            android:textSize="14sp"
+            android:textColor="@android:color/white"
+            android:gravity="center" />
+    </LinearLayout>
+
     <!-- RecyclerView для списка объектов -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/buttonAddLift"
+        app:layout_constraintTop_toBottomOf="@id/ll_stats"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

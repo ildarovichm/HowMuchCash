@@ -57,7 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Лицензия: MIT"
+            android:text="@string/license"
             android:textColor="@color/white"
             android:textSize="13sp"
             android:layout_marginTop="16dp" />
