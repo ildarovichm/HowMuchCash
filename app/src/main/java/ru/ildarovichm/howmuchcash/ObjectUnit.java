@@ -24,12 +24,12 @@ public class ObjectUnit implements ObjectUnitInterface, Serializable {
     }
 
     public ObjectUnit(
-            Unit unit,
-            String typeOfObjectUnit,
-            String typeOfObject,
-            int countNumberOfFloorsOfObject,
-            boolean parkingAvailability,
-            boolean toCheckBoxState){
+            Unit unit, //Адрес
+            String typeOfObjectUnit, //Лифт, Подъемник
+            String typeOfObject, //Грузопас-й, Пас-й
+            int countNumberOfFloorsOfObject, //Кол-во остановок
+            boolean parkingAvailability, //Наличие паркинга
+            boolean toCheckBoxState){ //Отметка ТО
         this.unit = unit;
         this.typeOfObjectUnit = typeOfObjectUnit;
         this.typeOfObject = typeOfObject;

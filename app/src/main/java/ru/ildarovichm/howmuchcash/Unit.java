@@ -2,10 +2,6 @@ package ru.ildarovichm.howmuchcash;
 import androidx.annotation.NonNull;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class Unit implements UnitInterface, Serializable {
     private String address;
@@ -32,6 +28,46 @@ public class Unit implements UnitInterface, Serializable {
     @Override
     public String getAddress() {
         return city + ", " + street + ", " + buildings + ", " + entrance;
+    }
+
+    @Override
+    public String getCity() {
+        return city;
+    }
+
+    @Override
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    @Override
+    public String getStreet() {
+        return street;
+    }
+
+    @Override
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    @Override
+    public String getBuilding() {
+        return buildings;
+    }
+
+    @Override
+    public void setBuilding(String building) {
+        this.buildings = building;
+    }
+
+    @Override
+    public int getEntrance() {
+        return entrance;
+    }
+
+    @Override
+    public void setEntrance(int entrance) {
+        this.entrance = entrance;
     }
 
     @Override
