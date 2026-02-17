@@ -24,13 +24,19 @@ public class ExpandableObjectAdapter extends RecyclerView.Adapter<RecyclerView.V
     private List<Object> flatList = new ArrayList<>();
     private Map<String, ObjectGroup> groups = new HashMap<>();
     private OnItemClickListener listener;
+    private OnDataChangeListener dataChangeListener;
 
     public interface OnItemClickListener {
         void onObjectClick(ObjectUnit object);
     }
 
-    public ExpandableObjectAdapter(OnItemClickListener listener) {
+    public interface OnDataChangeListener {
+        void onDataChanged();
+    }
+
+    public ExpandableObjectAdapter(OnItemClickListener listener, OnDataChangeListener dataChangeListener) {
         this.listener = listener;
+        this.dataChangeListener = dataChangeListener;
     }
 
     public void setData(ArrayList<ObjectUnit> objects, ObjectGroup.GroupLevel groupLevel) {
@@ -134,13 +140,19 @@ public class ExpandableObjectAdapter extends RecyclerView.Adapter<RecyclerView.V
 
             cbTO.setOnCheckedChangeListener((btn, isChecked) -> {
                 object.setTOCheckBoxState(isChecked);
-                if (listener != null) listener.onObjectClick(object);
+                if (dataChangeListener != null) {
+                    dataChangeListener.onDataChanged(); // ← Сохраняем
+                }
             });
 
             itemView.setOnClickListener(v -> {
                 if (listener != null) listener.onObjectClick(object);
             });
         }
+    }
+
+    public Map<String, ObjectGroup> getGroups() {
+        return groups;
     }
 
     private void refreshFlatList() {

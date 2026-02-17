@@ -39,7 +39,9 @@ import ru.ildarovichm.howmuchcash.R;
 import ru.ildarovichm.howmuchcash.Unit;
 import ru.ildarovichm.howmuchcash.databinding.FragmentHomeBinding;
 
-public class HomeFragment extends Fragment implements ExpandableObjectAdapter.OnItemClickListener {
+public class HomeFragment extends Fragment
+        implements ExpandableObjectAdapter.OnItemClickListener,
+        ExpandableObjectAdapter.OnDataChangeListener {
     private FragmentHomeBinding binding;
     SharedPreferences settings;
     ArrayList<ObjectUnit> objectUnitList;
@@ -62,7 +64,7 @@ public class HomeFragment extends Fragment implements ExpandableObjectAdapter.On
 
     private void setupRecyclerView() {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new ExpandableObjectAdapter(this);
+        adapter = new ExpandableObjectAdapter(this, this); // ← Передаём this как OnDataChangeListener
         binding.recyclerView.setAdapter(adapter);
     }
 
@@ -99,6 +101,19 @@ public class HomeFragment extends Fragment implements ExpandableObjectAdapter.On
     private void loadAndRefresh() {
         ArrayList<ObjectUnit> list = loadArrayList();
         adapter.setData(list, ObjectGroup.GroupLevel.CITY_STREET);
+    }
+
+    @Override
+    public void onDataChanged() {
+        saveArrayList("OBJECT_UNIT_LIST", getAllObjectsFromGroups());
+    }
+
+    private ArrayList<ObjectUnit> getAllObjectsFromGroups() {
+        ArrayList<ObjectUnit> all = new ArrayList<>();
+        for (ObjectGroup group : ((ExpandableObjectAdapter) binding.recyclerView.getAdapter()).getGroups().values()) {
+            all.addAll(group.getObjects());
+        }
+        return all;
     }
 
     private void saveArrayList(String name, ArrayList<ObjectUnit> list) {
