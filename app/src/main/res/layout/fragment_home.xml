@@ -25,6 +25,7 @@
 
     <Button
         android:id="@+id/buttonAddLift"
+        style="@style/ButtonStyle"
         android:layout_width="150dp"
         android:layout_height="45dp"
         android:background="@drawable/custom_button"
@@ -63,10 +64,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <!--            <WebView-->
-                <!--                android:id="@+id/webView"-->
-                <!--                android:layout_width="match_parent"-->
-                <!--                android:layout_height="600dp" />-->
                 <TableLayout
                     android:id="@+id/table1"
                     android:layout_width="match_parent"
@@ -106,7 +103,7 @@
                             android:text="" />
 
                         <Button
-                            android:id="@+id/button"
+                            android:id="@+id/btnDelete"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Удалить" />

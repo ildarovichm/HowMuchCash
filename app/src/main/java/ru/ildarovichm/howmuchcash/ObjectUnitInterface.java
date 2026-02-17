@@ -30,8 +30,5 @@ public interface ObjectUnitInterface {
     boolean getTOCheckBoxState();
     void setTOCheckBoxState(boolean toCheckBoxState);
 
-    boolean getDelCheckBoxState();
-    void setDelCheckboxState(boolean delCheckboxState);
-
     String toString();
 }

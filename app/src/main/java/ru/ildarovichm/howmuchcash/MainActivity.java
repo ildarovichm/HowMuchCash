@@ -1,9 +1,13 @@
 package ru.ildarovichm.howmuchcash;
 
-import android.content.Intent;
+import android.app.AlertDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.Menu;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -21,6 +25,7 @@ import ru.ildarovichm.howmuchcash.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
     private String annotationToastText = "Запустился HomeFragment";
     private AppBarConfiguration mAppBarConfiguration;
+    private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
 
     @Override
@@ -43,10 +48,24 @@ public class MainActivity extends AppCompatActivity {
 //        });
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
+        navigationView.setNavigationItemSelectedListener(menuItem -> {
+            if (menuItem.getItemId() == R.id.about) {
+                showAboutPopup(menuItem);
+                return true;
+            }
+            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+            mAppBarConfiguration = new AppBarConfiguration.Builder(
+                    R.id.nav_home, R.id.calculateSalaryFragment, R.id.settingsMenuFragment)
+                    .setOpenableLayout(drawer)
+                    .build();
+
+            NavigationUI.onNavDestinationSelected(menuItem, navController);
+            return true;
+        });
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.calculateSalaryFragment, R.id.settingsMenuFragment)
+                R.id.objectUnitListFragment, R.id.nav_home, R.id.calculateSalaryFragment, R.id.settingsMenuFragment)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
@@ -56,18 +75,36 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences pricesSettings = getSharedPreferences("PricesSettings", MODE_PRIVATE);
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    public boolean showAboutPopup(MenuItem item) {
+        // Создаём макет вручную
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_about, null);
+
+        // Найдём TextView и установим версию
+        TextView versionText = dialogView.findViewById(R.id.text_version);
+        versionText.setText("Версия: " + BuildConfig.VERSION_NAME);
+
+        // Найдём кнопку OK
+        Button btnOk = dialogView.findViewById(R.id.btnOk);
+
+        // Создаём диалог
+        AlertDialog dialog = new AlertDialog.Builder(this, R.style.CustomAboutDialog)
+                .setView(dialogView)
+                .create();
+
+        // Сделаем фон прозрачным, чтобы был виден CardView
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        // Обработка кнопки
+        btnOk.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
+        return true;
     }
 }

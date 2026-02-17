@@ -5,11 +5,19 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="green">#3aba2f</color>
     <color name="blue">#006fed</color>
     <color name="yellow">#bfeb10</color>
-    <color name="gray">#666</color>
-
+    <color name="black">#FF000000</color>
+    <color name="gray">#FF666666</color>
+    <color name="cardBackgroundColor">#2F223C</color>
+    <color name="cardTextColor">#588157</color>
+    <color name="cardHeaderColor">#CAE5B1</color>
+    <color name="cardMainTextColor">#B5C1B1</color>
+    <color name="colorAccent">#c8cb01</color>
+    <color name="colorPrimary">#e3dd16</color>
+    <color name="mainBackground">#323232</color>
+    <color name="accentBackground">#212121</color>
+    <color name="colorSurface">#7a7a7a</color>
 </resources>

@@ -5,116 +5,107 @@ import java.util.ListIterator;
 import java.time.LocalDate;
 
 public class SalaryCalculation {
-    private ArrayList<ObjectUnit> amountObjectUnitList;
     private int countAmountObjectUnit;
     static int countAmountObjectUnitLift;
     static int countAmountObjectUnitElevator;
-    static Price price;
-    private ArrayList<Price> priceList;
     static int salaryAmountLift;
     static int salaryAmountElevator;
     private int salaryAmountObjectUnit;
     static int countAmountLiftSkyscraper;
     static int countAmountLiftLowRise;
     private int salaryAmountWatch;
-
-    private ArrayList<LocalDate> nightWatchList;
-    private ArrayList<LocalDate> weekendWatchList;
-    //private ArrayList<ArrayList<LocalDate>> watch;
+    private final ArrayList<ObjectUnit> amountObjectUnitList;
+    private final Price price;
+    private final ArrayList<LocalDate> nightWatchList;
+    private final ArrayList<LocalDate> weekendWatchList;
 
     //конструктор объекта со списком дежурств и кол-вом смен
-    public SalaryCalculation(ArrayList<LocalDate> nightWatchList, ArrayList<LocalDate> weekendWatchList, Price price, ArrayList<ObjectUnit> amountObjectUnitList){
+    public SalaryCalculation(ArrayList<LocalDate> nightWatchList,
+                             ArrayList<LocalDate> weekendWatchList,
+                             Price price,
+                             ArrayList<ObjectUnit> amountObjectUnitList) {
         this.nightWatchList = nightWatchList;
         this.weekendWatchList = weekendWatchList;
         this.price = price;
         this.amountObjectUnitList = amountObjectUnitList;
-
-//        int resCountObjectUnitLift = this.getCountObjectUnitLift();
-//        int resCountObjectUnitElevator = this.getCountObjectUnitElevator();
-//        int resCountAmountLiftSkyscraper = this.getCountAmountLiftSkyscraper();
-//        int resCountAmountObjectUnit = this.getCountAmountObjectUnit();
-//
-//        int resSalaryAmountObjectUnitLift = this.getSalaryAmountObjectUnitLift();
-//        int resSalaryAmountObjectUnitElevator = this.getSalaryAmountObjectUnitElevator();
-//        int resSalaryAmountObjectUnit = this.getSalaryAmountObjectUnit();
-//        int resSalaryAmountWatch = this.getSalaryAmountWatch();
     }
 
-    public int getCountAmountObjectUnit(){
-        ListIterator<ObjectUnit> listIter = amountObjectUnitList.listIterator();
-        while(listIter.hasNext()) {
-            listIter.next();
-            countAmountObjectUnit++;
-        }
-        return countAmountObjectUnit;
+    // Подсчёт общего количества объектов
+    public int getCountAmountObjectUnit() {
+        return amountObjectUnitList.size();
     }
 
-    //метод для подсчета кол-ва лифтов высоток
-    public int getCountAmountLiftSkyscraper(){
-        int i = 0;
-        ListIterator<ObjectUnit> listIter = amountObjectUnitList.listIterator();
-        while(listIter.hasNext()) {
-            if(listIter.next().getCountNumberOfFloorsOfObject() >= 16){
-                countAmountLiftSkyscraper++;
-            }
-        } return countAmountLiftSkyscraper;
-    }
-
-    //метод объекта для подсчета кол-ва лифтов
-    public int getCountObjectUnitLift(){
-        int i = 0;
-        ListIterator<ObjectUnit> listIter = amountObjectUnitList.listIterator();
-        while(listIter.hasNext()) {
-            if(listIter.next().getTypeOfObjectUnit().equals("Лифт")) {
-                countAmountObjectUnitLift++;
+    // Подсчёт высоток (≥16 этажей)
+    public int getCountAmountLiftSkyscraper() {
+        int count = 0;
+        for (ObjectUnit unit : amountObjectUnitList) {
+            if ("Лифт".equals(unit.getTypeOfObjectUnit().trim()) &&
+                    unit.getCountNumberOfFloorsOfObject() >= 16) {
+                count++;
             }
         }
-        return countAmountObjectUnitLift;
+        return count;
     }
 
-    //метод объекта для подсчета кол-ва подъемников
-    public int getCountObjectUnitElevator(){
-        int i = 0;
+    // Подсчёт лифтов
+    public int getCountObjectUnitLift() {
+        int count = 0;
         ListIterator<ObjectUnit> listIter = amountObjectUnitList.listIterator();
-        while(listIter.hasNext()) {
-            if(listIter.next().getTypeOfObjectUnit().equals("Подъемник")) {
-                countAmountObjectUnitElevator++;
+        while (listIter.hasNext()) {
+            ObjectUnit unit = listIter.next();
+            if ("Лифт".equals(unit.getTypeOfObjectUnit().trim())) {
+                count++;
             }
-        } return countAmountObjectUnitElevator;
+        }
+        return count;
     }
 
-    //метод объекта для подсчета зп за лифты
-    public int getSalaryAmountObjectUnitLift(){
-        salaryAmountObjectUnit = 0;
-        countAmountLiftLowRise = countAmountObjectUnitLift - countAmountLiftSkyscraper;
-        salaryAmountLift = (price.getPriceForUnitLift() * countAmountLiftLowRise) + ((price.getPriceForUnitLift() + price.getExtraChargeForSkyscraper()) * countAmountLiftSkyscraper);
-        return salaryAmountLift;
+    // Подсчёт подъёмников
+    public int getCountObjectUnitElevator() {
+        int count = 0;
+        ListIterator<ObjectUnit> listIter = amountObjectUnitList.listIterator();
+        while (listIter.hasNext()) {
+            ObjectUnit unit = listIter.next();
+            if ("Подъемник".equals(unit.getTypeOfObjectUnit().trim())) {
+                count++;
+            }
+        }
+        return count;
     }
 
-    //метод объекта для подсчета зп за подъемники
-    public int getSalaryAmountObjectUnitElevator(){
-        salaryAmountElevator = 0;
-        salaryAmountElevator = price.getPriceForUnitElevator() * countAmountObjectUnitElevator;
-        return salaryAmountElevator;
+    // ЗП за лифты
+    public int getSalaryAmountObjectUnitLift() {
+        int countLift = getCountObjectUnitLift();
+        int countSkyscraper = getCountAmountLiftSkyscraper();
+        int countLowRise = countLift - countSkyscraper;
+
+        return (price.getPriceForUnitLift() * countLowRise) +
+                ((price.getPriceForUnitLift() + price.getExtraChargeForSkyscraper()) * countSkyscraper);
     }
 
-    //метод объекта для подсчета общей зп за объем
-    public int getSalaryAmountObjectUnit(){
-        salaryAmountWatch = 0;
-        salaryAmountObjectUnit = salaryAmountLift + salaryAmountElevator;
-        return salaryAmountObjectUnit;
+    // ЗП за подъёмники
+    public int getSalaryAmountObjectUnitElevator() {
+        return price.getPriceForUnitElevator() * getCountObjectUnitElevator();
     }
 
-    //метод объекта для подсчета зп за дежурства
-    public int getSalaryAmountWatch(){
-        int countOrdinary = nightWatchList.size();
-        int countWeekend = weekendWatchList.size();
-        salaryAmountWatch = (countOrdinary * price.getPriceForNightWatch()) + (countWeekend * price.getPriceForWeekendWatch());
-        return salaryAmountWatch;
+    // Общая ЗП за объем
+    public int getSalaryAmountObjectUnit() {
+        return getSalaryAmountObjectUnitLift() + getSalaryAmountObjectUnitElevator();
     }
 
+    // ЗП за дежурства
+    public int getSalaryAmountWatch() {
+        int countOrdinary = nightWatchList != null ? nightWatchList.size() : 0;
+        int countWeekend = weekendWatchList != null ? weekendWatchList.size() : 0;
+        return (countOrdinary * price.getPriceForNightWatch()) +
+                (countWeekend * price.getPriceForWeekendWatch());
+    }
+
+    // Итоговая ЗП
     public int getSalaryAmountAll(int countWorkShiftInMonth, int countActualDaysWorked) {
-        return ((salaryAmountObjectUnit * countWorkShiftInMonth) / countActualDaysWorked) + salaryAmountWatch;
+        if (countActualDaysWorked == 0) return 0;
+        int baseSalary = getSalaryAmountObjectUnit();
+        return (baseSalary * countWorkShiftInMonth) / countActualDaysWorked + getSalaryAmountWatch();
     }
 
 }

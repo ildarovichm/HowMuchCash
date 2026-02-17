@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/Theme.HowMuchCash"
     tools:context=".ui.pricesInput.PricesInputFragment">
 
     <TextView
@@ -11,6 +12,7 @@
         android:layout_width="105dp"
         android:layout_height="60dp"
         android:text=""
+        android:theme="@style/Theme.HowMuchCash"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

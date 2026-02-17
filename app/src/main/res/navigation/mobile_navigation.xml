@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_nav_home_to_calculateSalaryFragment"
             app:destination="@id/calculateSalaryFragment" />
+        <action
+            android:id="@+id/action_nav_home_to_objectUnitListFragment"
+            app:destination="@id/objectUnitListFragment" />
     </fragment>
 
     <fragment
@@ -109,6 +112,12 @@
         <action
             android:id="@+id/action_calculateSalaryFragment_to_nav_slideshow"
             app:destination="@id/nav_slideshow" />
+        <action
+            android:id="@+id/action_calculateSalaryFragment_to_nav_gallery"
+            app:destination="@id/nav_gallery" />
+        <action
+            android:id="@+id/action_calculateSalaryFragment_to_readWriteObjectFragment"
+            app:destination="@id/readWriteObjectFragment" />
     </fragment>
     <fragment
         android:id="@+id/readWriteObjectFragment"
@@ -117,6 +126,15 @@
         tools:layout="@layout/fragment_read_write_object">
         <action
             android:id="@+id/action_readWriteObjectFragment_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/objectUnitListFragment"
+        android:name="ru.ildarovichm.howmuchcash.ObjectUnitListFragment"
+        android:label="Список объектов"
+        tools:layout="@layout/fragment_object_unit_list">
+        <action
+            android:id="@+id/action_objectUnitListFragment_to_nav_home"
             app:destination="@id/nav_home" />
     </fragment>
 </navigation>

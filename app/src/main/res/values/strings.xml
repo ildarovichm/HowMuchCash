@@ -3,8 +3,9 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Добро пожаловать!</string>
-    <string name="nav_header_subtitle">Не дайте начальству себя наебать, считайте зарплату сами!</string>
+    <string name="nav_header_subtitle">Рассчитать зарплату просто</string>
     <string name="nav_header_desc">Навигация</string>
+    <string name="objectunit_menu">Объекты (Плитка)</string>
     <string name="action_settings">Настройки</string>
     <string name="read_write_object_fragment">Записать, прочитать таблицу объектов</string>
 
@@ -27,7 +28,7 @@
     <string name="switchElevator">Подъемник</string>
     <string name="annotationForInputObjects">Для добавления объекта нажмите Добавить и заполните необходимые поля, после чего нажмите Сохранить</string>
     <string name="annotationForEditTextAddress">Введите адрес объекта</string>
-
+    <string name="about_text">Калькулятор ЗП и ассистент электромехаников по лифтам</string>
     <string name="city">Город</string>
     <string name="street">Улица</string>
     <string name="buildings">Дом/Строение</string>
@@ -41,8 +42,8 @@
         <item>Подъемник</item>
     </string-array>
     <string-array name="typeOfObjectArrayIfLift">
-        <item>Грузопассажирский</item>
-        <item>Пассажирский</item>
+        <item>Грузопас-й</item>
+        <item>Пас-й</item>
         <item>Грузовой</item>
     </string-array>
     <string-array name="typeOfObjectArrayIfElevator">
@@ -52,8 +53,8 @@
         <item>Эскалатор</item>
     </string-array>
     <string-array name="typeOfObjectArrayIfAll">
-        <item>Грузопассажирский</item>
-        <item>Пассажирский</item>
+        <item>Грузопас-й</item>
+        <item>Пас-й</item>
         <item>Грузовой</item>
         <item>Малый грузовой</item>
         <item>Гидравлическая грузовая платформа</item>
@@ -106,4 +107,6 @@
         <item>39</item>
         <item>40</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="about">О программе</string>
 </resources>

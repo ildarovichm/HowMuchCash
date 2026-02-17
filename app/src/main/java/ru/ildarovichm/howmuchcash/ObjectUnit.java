@@ -1,34 +1,41 @@
 package ru.ildarovichm.howmuchcash;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 public class ObjectUnit implements ObjectUnitInterface, Serializable {
+    @SerializedName("unit")
     private Unit unit;
+    @SerializedName("countOfObjectsOnUnit")
     private int countOfObjectsOnUnit;
+    @SerializedName("typeOfObjectUnit")
     private String typeOfObjectUnit;
+    @SerializedName("typeOfObject")
     private String typeOfObject;
+    @SerializedName("parkingAvailability")
     private boolean parkingAvailability;
+    @SerializedName("countNumberOfFloorsOfObject")
     private int countNumberOfFloorsOfObject;
+    @SerializedName("toCheckBoxState")
     private boolean toCheckBoxState;
-    private boolean delCheckBoxState;
+
+    public ObjectUnit() {
+    }
 
     public ObjectUnit(
             Unit unit,
-//            int countOfObjectsOnUnit,
             String typeOfObjectUnit,
             String typeOfObject,
             int countNumberOfFloorsOfObject,
             boolean parkingAvailability,
-            boolean toCheckBoxState,
-            boolean delCheckBoxState){
+            boolean toCheckBoxState){
         this.unit = unit;
-//        this.countOfObjectsOnUnit = countOfObjectsOnUnit;
         this.typeOfObjectUnit = typeOfObjectUnit;
         this.typeOfObject = typeOfObject;
         this.countNumberOfFloorsOfObject = countNumberOfFloorsOfObject;
         this.parkingAvailability = parkingAvailability;
         this.toCheckBoxState = toCheckBoxState;
-        this.delCheckBoxState = delCheckBoxState;
     }
 
     @Override
@@ -101,17 +108,6 @@ public class ObjectUnit implements ObjectUnitInterface, Serializable {
         this.toCheckBoxState = toCheckBoxState;
     }
 
-    @Override
-    public boolean getDelCheckBoxState() {
-        return this.delCheckBoxState;
-    }
-
-    @Override
-    public void setDelCheckboxState(boolean delCheckBoxState) {
-        this.delCheckBoxState = delCheckBoxState;
-
-    }
-
     public  String toString(){
         return unit.toString() + "; " +
                 countOfObjectsOnUnit + "; " +
@@ -119,7 +115,6 @@ public class ObjectUnit implements ObjectUnitInterface, Serializable {
                 typeOfObject + "; " +
                 countNumberOfFloorsOfObject + "; " +
                 parkingAvailability + "; " +
-                toCheckBoxState + "; " +
-                delCheckBoxState;
+                toCheckBoxState;
     }
 }

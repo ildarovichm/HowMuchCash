@@ -18,8 +18,8 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.HowMuchCash.NoActionBar">
+            android:label="@string/app_name">
+<!--            android:theme="@style/Theme.HowMuchCash.NoActionBar"-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

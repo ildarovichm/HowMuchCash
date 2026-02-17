@@ -19,6 +19,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import ru.ildarovichm.howmuchcash.ObjectUnit;
@@ -31,6 +35,7 @@ public class InputObjectsFragment extends Fragment {
     private FragmentInputObjectsBinding binding;
     SharedPreferences settings;
     private ArrayList<ObjectUnit> listLoadedFromShPrefs = new ArrayList<>();
+    private static final Gson gson = new Gson();
     public static InputObjectsFragment newInstance() {
         return new InputObjectsFragment();
     }
@@ -47,38 +52,15 @@ public class InputObjectsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        settings = getActivity().getSharedPreferences("ObjectUnitListPrefs", MODE_PRIVATE);
-//        binding.spinnerTypeOfObjectUnit.setClickable(false);
-//        binding.spinnertypeOfObject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                if (parent.getItemAtPosition(position).toString().equals("Лифт")) {
-//                    ArrayAdapter<CharSequence> adapter =
-//                            ArrayAdapter.createFromResource(getContext(), R.array.typeOfObjectArrayIfLift, android.R.layout.simple_spinner_item);
-//                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//                    binding.spinnerTypeOfObjectUnit.setClickable(true);
-//                } else if (parent.getItemAtPosition(position).toString().equals("Подъемник")) {
-//                    ArrayAdapter<CharSequence> adapter =
-//                            ArrayAdapter.createFromResource(getContext(), R.array.typeOfObjectArrayIfElevator, android.R.layout.simple_spinner_item);
-//                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//                    binding.spinnerTypeOfObjectUnit.setClickable(true);
-//                }
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//                binding.spinnerTypeOfObjectUnit.setClickable(false);
-//            }
-//        });
 
         binding.buttonAddObject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Unit unit = new Unit(
-                        String.valueOf(binding.editTextCity.getText()),
-                        String.valueOf(binding.editTextStreet.getText()),
-                        String.valueOf(binding.editTextBuildings.getText()),
+                        String.valueOf(binding.editTextCity.getText()).trim(),
+                        String.valueOf(binding.editTextStreet.getText()).trim(),
+                        String.valueOf(binding.editTextBuildings.getText()).trim(),
                         Integer.parseInt(String.valueOf(binding.editTextEntrance.getText()))
                 );
                 ObjectUnit objectUnit = new ObjectUnit(
@@ -88,7 +70,6 @@ public class InputObjectsFragment extends Fragment {
                         binding.spinnertypeOfObject.getSelectedItem().toString().trim(),
                         Integer.parseInt(binding.spinnerCountNumberOfFloorsObject.getSelectedItem().toString()),
                         Boolean.parseBoolean(binding.spinnerParkingAvailability.getSelectedItem().toString()),
-                        false,
                         false
                 );
 
@@ -107,53 +88,16 @@ public class InputObjectsFragment extends Fragment {
     }
 
     private void saveArrayList(String name, ArrayList<ObjectUnit> list) {
-        settings = getActivity().getSharedPreferences("ObjectUnitListPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = settings.edit();
-        StringBuilder sb = new StringBuilder();
-        for (ObjectUnit s : list) sb.append(s).append("<s>");
-        sb.delete(sb.length() - 3, sb.length());
-        editor.putString(name, sb.toString()).apply();
+        String json = gson.toJson(list);
+        editor.putString(name, json).apply();
     }
 
     private ArrayList<ObjectUnit> loadArrayList(String name) {
-        settings = getActivity().getSharedPreferences("ObjectUnitListPrefs", MODE_PRIVATE);
-        String[] strings = settings.getString(name, "").split("<s>");
-        ArrayList<ObjectUnit> list = new ArrayList<>();
-        for (int i = 0; i < strings.length; i++) {
-            String[] subStr = strings[i].split(";");
-            String[] unitSubStr = subStr[0].split(",");
-            String city = unitSubStr[0].trim();
-            String street = unitSubStr[1].trim();
-            String buildings = unitSubStr[2].trim();
-            int entrance = Integer.parseInt(unitSubStr[3].trim());
-            Unit unitLoad = new Unit(
-                    city,
-                    street,
-                    buildings,
-                    entrance
-            );
-
-            int countOfObjectUnit = Integer.parseInt(subStr[1].trim());
-            String typeOfObjectUnit = subStr[2];
-            String typeOfObject = subStr[3];
-            int countNumberOfFloors = Integer.parseInt(subStr[4].trim());
-            boolean parkingAvailability = Boolean.parseBoolean(subStr[5]);
-            boolean toCheckBoxState = Boolean.parseBoolean(subStr[6]);
-            boolean delCheckBoxState = Boolean.parseBoolean(subStr[7]);
-
-            ObjectUnit objectUnitLoad = new ObjectUnit(
-                    unitLoad,
-//                    countOfObjectUnit,
-                    typeOfObjectUnit,
-                    typeOfObject,
-                    countNumberOfFloors,
-                    parkingAvailability,
-                    toCheckBoxState,
-                    delCheckBoxState
-            );
-            list.add(objectUnitLoad);
-        }
-        return list;
+        String json = settings.getString(name, "");
+        if (json.isEmpty()) return new ArrayList<>();
+        Type type = new TypeToken<ArrayList<ObjectUnit>>(){}.getType();
+        return gson.fromJson(json, type);
     }
 
     @Override

@@ -4,6 +4,9 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
+<!--        <item-->
+<!--            android:id="@+id/objectUnitListFragment"-->
+<!--            android:title="@string/objectunit_menu" />-->
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_menu_camera"
@@ -14,12 +17,13 @@
             android:title="@string/menu_gallery" />
         <item
             android:id="@+id/settingsMenuFragment"
-            android:icon="@drawable/ic_launcher_background"
+            android:icon="@drawable/baseline_ad_units_24"
             android:title="@string/menu_settings" />
         <item
-            android:id="@+id/menu_read_write_objects"
-            android:icon="@drawable/ic_launcher_background"
-            android:visible="false"
-            android:title="@string/menu_read_write_objects" />
+            android:id="@+id/about"
+            android:icon="@drawable/baseline_info_24"
+            android:onClick="showAboutPopup"
+            android:title="@string/about" />
+
     </group>
 </menu>

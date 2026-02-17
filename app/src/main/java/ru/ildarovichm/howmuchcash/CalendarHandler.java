@@ -17,16 +17,9 @@ import ru.ildarovichm.howmuchcash.WeekendFinder;
 public class CalendarHandler {
     static int year;
     static int month;
-    static int day;
-    static String MONTH;
-    static String DAY;
-    static String YEAR;
     static String userDate = "";
 
     public ArrayList<ArrayList<String>> allDatesList = new ArrayList<>();
-
-    private ArrayList<LocalDate> nightWatchList = new ArrayList<>();
-    private ArrayList<LocalDate> weekendWatchList = new ArrayList<>();
 
     //создается пустой объект класса CalendarHandler
     public CalendarHandler(ArrayList<ArrayList<String>> allDatesList){
@@ -70,36 +63,6 @@ public class CalendarHandler {
         return allLocalDateList;
     }
 
-    public int getMonth(){
-        int i = 0;
-        int resMonth = 0;
-        for (ArrayList<String> dateList : allDatesList) {
-            for (String date : dateList) {
-                String[] elements = date.split("-");
-                i++;
-                resMonth = Integer.parseInt(elements[1]);
-            }
-        }
-        return resMonth;
-    }
-
-    public int getYear(){
-        int i = 0;
-        int resYear = 0;
-        for (ArrayList<String> dateList : allDatesList) {
-            for (String date : dateList) {
-                String[] elements = date.split("-");
-                i++;
-                resYear = Integer.parseInt(elements[0]);
-            }
-        }
-        return resYear;
-    }
-
-    public void setUserDate(String userDate){
-        this.userDate = userDate;
-    }
-
     public ArrayList<LocalDate> getWeekendWatchList(int year, int month){
 //        this.year = year;
 //        this.month = month;
@@ -111,15 +74,7 @@ public class CalendarHandler {
         Collections.sort(common);
         return common;
     }
-
-    public String removeZero(String str){
-        int i = 0;
-        while (i < str.length() && str.charAt(i) == '0')
-            i++;
-        StringBuffer sb = new StringBuffer(str);
-        return sb.toString();
-    }
-
+    
     public ArrayList<LocalDate> getNightWatchList(int year, int month){
         CalendarHandler.year = year;
         CalendarHandler.month = month;

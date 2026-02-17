@@ -29,14 +29,13 @@ public class SlideshowFragment extends Fragment {
             Toast.makeText(getContext(), "onCreateView, savedInstanceState != 0", Toast.LENGTH_LONG).show();
         }
         binding = FragmentSlideshowBinding.inflate(inflater, container, false);
-        settings = getActivity().getSharedPreferences("CalculatingResult", MODE_PRIVATE);
-        View root = binding.getRoot();
-        return root;
+        return binding.getRoot();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        settings = getActivity().getSharedPreferences("CalculatingResult", MODE_PRIVATE);
     }
 
     @Override
@@ -47,7 +46,6 @@ public class SlideshowFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-//        settings = getActivity().getSharedPreferences("CalculatingResult", MODE_PRIVATE);
         String resAmountLift = settings.getString("SALARY_AMOUNT_OBJECT_UNIT_LIFT", String.valueOf(0));
         String resAmountElevator = settings.getString("SALARY_AMOUNT_OBJECT_UNIT_ELEVATOR", String.valueOf(0));
         String resAmountObjectUnit = settings.getString("SALARY_AMOUNT_OBJECT_UNIT", String.valueOf(0));
@@ -55,15 +53,10 @@ public class SlideshowFragment extends Fragment {
         String resAmountAll = settings.getString("SALARY_AMOUNT_ALL", String.valueOf(0));
 
         binding.textViewSalaryLiftTR.setText(resAmountLift);
-        binding.textViewSalaryLift.setText(resAmountLift);
         binding.textViewSalaryElevatorTR.setText(resAmountElevator);
-        binding.textViewSalaryElevator.setText(resAmountElevator);
         binding.textViewSalaryAmountObjectsTR.setText(resAmountObjectUnit);
-        binding.textViewSalaryAmountObjects.setText(resAmountObjectUnit);
         binding.textViewSalaryWatchTR.setText(resAmountWatch);
-        binding.textViewSalaryWatch.setText(resAmountWatch);
         binding.textViewSalaryAmountAllTR.setText(resAmountAll);
-        binding.textViewSalaryAmountAll.setText(resAmountAll);
     }
 
     @Override
