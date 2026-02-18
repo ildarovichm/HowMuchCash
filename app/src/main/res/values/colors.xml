@@ -20,4 +20,5 @@
     <color name="mainBackground">#323232</color>
     <color name="accentBackground">#212121</color>
     <color name="colorSurface">#7a7a7a</color>
+    <color name="colorError">#B00020</color>
 </resources>

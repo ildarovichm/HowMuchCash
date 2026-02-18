@@ -13,6 +13,7 @@
     <string name="menu_gallery">Рассчет зарплаты</string>
     <string name="menu_input_objects">Добавить объект</string>
     <string name="menu_settings">Настройки</string>
+    <string name="result_of_calculations">Расчетка</string>
     <string name="menu_read_write_objects">Записать/Прочитать список объектов из файла</string>
     <string name="menu_calculateSalary">Рассчеты зарплаты</string>
 
@@ -62,9 +63,9 @@
         <item>Инвалидная платформа</item>
         <item>Эскалатор</item>
     </string-array>
-    <string-array name="parkingAvailabilityArray">
-        <item>true</item>
-        <item>false</item>
+    <string-array name="parking_display_options">
+        <item>Есть</item>
+        <item>Нет</item>
     </string-array>
     <string-array name="countNumberOfFloorsOfObjectArray">
         <item>1</item>

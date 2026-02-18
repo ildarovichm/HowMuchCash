@@ -9,19 +9,19 @@
 <!--            android:title="@string/objectunit_menu" />-->
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/list_right_svgrepo_com"
             android:title="@string/menu_home" />
         <item
             android:id="@+id/calculateSalaryFragment"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/calculator_svgrepo_com"
             android:title="@string/menu_gallery" />
         <item
             android:id="@+id/settingsMenuFragment"
-            android:icon="@drawable/baseline_ad_units_24"
+            android:icon="@drawable/settings_svgrepo_com"
             android:title="@string/menu_settings" />
         <item
             android:id="@+id/about"
-            android:icon="@drawable/baseline_info_24"
+            android:icon="@drawable/about_svgrepo_com"
             android:onClick="showAboutPopup"
             android:title="@string/about" />
 

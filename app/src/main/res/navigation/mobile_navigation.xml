@@ -56,8 +56,8 @@
     <fragment
         android:id="@+id/nav_slideshow"
         android:name="ru.ildarovichm.howmuchcash.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_settings"
-        tools:layout="@layout/fragment_slideshow" >
+        android:label="@string/result_of_calculations"
+        tools:layout="@layout/fragment_slideshow">
         <argument
             android:name="price"
             app:argType="ru.ildarovichm.howmuchcash.Price" />

@@ -101,6 +101,9 @@ public class MainActivity extends AppCompatActivity {
         // Сделаем фон прозрачным, чтобы был виден CardView
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+        // Установка затемнения фона (от 0.0 — нет затемнения, до 1.0 — чёрный экран)
+        dialog.getWindow().setDimAmount(0.9f); // Рекомендуемое значение — 0.5–0.7
+
         // Обработка кнопки
         btnOk.setOnClickListener(v -> dialog.dismiss());
 
