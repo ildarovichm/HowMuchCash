@@ -96,7 +96,7 @@ public class HomeFragment extends Fragment
 
     private void loadAndRefresh() {
         ArrayList<ObjectUnit> list = loadArrayList();
-        adapter.setData(list, ObjectGroup.GroupLevel.CITY_STREET_BUILDING); // ← Изменено: группировка по дому
+        adapter.setData(list, ObjectGroup.GroupLevel.CITY_STREET_BUILDING); // ← Теперь группировка идёт по дому
         updateStats(list);
     }
 

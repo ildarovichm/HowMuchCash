@@ -66,6 +66,24 @@
             android:gravity="center" />
 
         <TextView
+            android:id="@+id/text_total_lifts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Лифтов: 0"
+            android:textSize="14sp"
+            android:textColor="@android:color/white"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/text_total_elevators"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Подъёмников: 0"
+            android:textSize="14sp"
+            android:textColor="@android:color/white"
+            android:gravity="center" />
+
+        <TextView
             android:id="@+id/text_total_to"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

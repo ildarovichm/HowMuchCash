@@ -17,18 +17,24 @@ public class ObjectGroup {
     }
 
     // Группировка по городу и улице
-    public static String getGroupKey(ObjectUnit obj, GroupLevel level) {
+    public static String getGroupKey(ObjectUnit object, GroupLevel level) {
         switch (level) {
+            case CITY:
+                return object.getUnit().getCity();
             case CITY_STREET:
-                return obj.getUnit().getCity() + "|" + obj.getUnit().getStreet();
+                return object.getUnit().getCity() + ", " + object.getUnit().getStreet();
             case CITY_STREET_BUILDING:
-                return obj.getUnit().getCity() + "|" + obj.getUnit().getStreet() + "|" + obj.getUnit().getBuilding();
+                return object.getUnit().getCity() + ", " + object.getUnit().getStreet() + ", " + object.getUnit().getBuilding();
             default:
-                return "";
+                throw new IllegalArgumentException("Unknown group level: " + level);
         }
     }
 
-    public enum GroupLevel { CITY_STREET, CITY_STREET_BUILDING }
+    public enum GroupLevel {
+        CITY,
+        CITY_STREET,
+        CITY_STREET_BUILDING; // ← Добавьте этот уровень
+    }
 
     // Геттеры и сеттеры
     public String getCity() { return city; }
