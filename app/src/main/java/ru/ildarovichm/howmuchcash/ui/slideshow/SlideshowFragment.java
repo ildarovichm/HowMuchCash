@@ -64,9 +64,6 @@ public class SlideshowFragment extends Fragment {
                 : ContextCompat.getColor(requireContext(), R.color.colorError);
 
         binding.iconSummary.setColorFilter(color);
-
-        // Добавление детализации (расширенные расчёты)
-//        addCalculationDetails(resAmountLift, resAmountElevator, resAmountWatch);
     }
 
     private String formatCurrency(String amount) {
@@ -76,60 +73,6 @@ public class SlideshowFragment extends Fragment {
         } catch (NumberFormatException e) {
             return "0.00 ₽";
         }
-    }
-
-    private void addCalculationDetails(String liftAmount, String elevatorAmount, String watchAmount) {
-        StringBuilder details = new StringBuilder();
-
-        details.append("🧾 Подробный расчёт:\n\n");
-
-        // Загружаем промежуточные значения из SharedPreferences
-        SharedPreferences prefs = requireContext().getSharedPreferences("CalculatingResult", MODE_PRIVATE);
-
-        // Лифты
-        if (Double.parseDouble(liftAmount) > 0) {
-            double baseLift = getDoublePref(prefs, "SALARY_AMOUNT_OBJECT_UNIT_LIFT_BASE", 0);
-            double bonusFloors = getDoublePref(prefs, "SALARY_BONUS_FLOORS", 0);
-            double bonusParking = getDoublePref(prefs, "SALARY_BONUS_PARKING", 0);
-            double bonusTO = getDoublePref(prefs, "SALARY_BONUS_TO", 0);
-
-            details.append("• Лифты: ").append(formatCurrency(liftAmount)).append("\n");
-            details.append("  └─ База: ").append(formatCurrency(String.valueOf(baseLift))).append("\n");
-            if (bonusFloors > 0) details.append("  └─ + Этажи: ").append(formatCurrency(String.valueOf(bonusFloors))).append("\n");
-            if (bonusParking > 0) details.append("  └─ + Парковка: ").append(formatCurrency(String.valueOf(bonusParking))).append("\n");
-            if (bonusTO > 0) details.append("  └─ + ТО: ").append(formatCurrency(String.valueOf(bonusTO))).append("\n");
-            details.append("\n");
-        }
-
-        // Подъёмники
-        if (Double.parseDouble(elevatorAmount) > 0) {
-            double baseElevator = getDoublePref(prefs, "SALARY_AMOUNT_OBJECT_UNIT_ELEVATOR_BASE", 0);
-            double bonusElevator = getDoublePref(prefs, "SALARY_BONUS_ELEVATOR", 0);
-
-            details.append("• Подъёмники: ").append(formatCurrency(elevatorAmount)).append("\n");
-            details.append("  └─ База: ").append(formatCurrency(String.valueOf(baseElevator))).append("\n");
-            if (bonusElevator > 0) details.append("  └─ + Коэффициент: ").append(formatCurrency(String.valueOf(bonusElevator))).append("\n");
-            details.append("\n");
-        }
-
-        // Дежурства
-        if (Double.parseDouble(watchAmount) > 0) {
-            int countWatch = prefs.getInt("COUNT_OF_WATCH", 0);
-            double rateWatch = getDoublePref(prefs, "RATE_OF_WATCH", 0);
-
-            details.append("• Дежурства: ").append(formatCurrency(watchAmount)).append("\n");
-            details.append("  └─ Объектов: ").append(countWatch).append(" × Ставка: ").append(formatCurrency(String.valueOf(rateWatch))).append("\n");
-            details.append("\n");
-        }
-
-        details.append("✅ Итого: ").append(binding.textViewSalaryAmountAllTR.getText());
-
-        binding.textCalculationDetails.setText(details.toString());
-        binding.textCalculationDetails.setVisibility(View.VISIBLE);
-    }
-
-    private double getDoublePref(SharedPreferences prefs, String key, double defValue) {
-        return Double.parseDouble(prefs.getString(key, String.valueOf(defValue)));
     }
 
     @Override

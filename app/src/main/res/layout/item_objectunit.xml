@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="4dp"
-    style="@style/MyObjectUnitCardStyle">
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="4dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="6dp"
+    app:cardBackgroundColor="@color/cardBackgroundColor">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-        <!-- Адрес (самая важная информация - сверху) -->
+        <!-- Адрес (заголовок) -->
         <TextView
             android:id="@+id/textAddress"
             android:layout_width="0dp"
@@ -23,68 +25,65 @@
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="@color/cardHeaderColor"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <!-- Разделитель -->
         <View
-            android:id="@+id/divider1"
+            android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#E0E0E0"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/textAddress" />
+            android:background="#40FFFFFF"
+            android:layout_marginVertical="8dp"
+            app:layout_constraintTop_toBottomOf="@id/textAddress" />
 
-        <!-- Первая строка таблицы: Тип юнита и Количество объектов УДАЛЕНО -->
+        <!-- Тип юнита -->
         <TextView
             android:id="@+id/labelTypeUnit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Тип юнита:"
+            android:text="Тип:"
             android:textSize="14sp"
-            android:textColor="@android:color/darker_gray"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider1" />
+            android:textColor="@color/cardSecondaryTextColor"
+            app:layout_constraintTop_toBottomOf="@id/divider"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/textTypeUnit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Тип юнита"
+            android:text="Лифт"
             android:textSize="16sp"
             android:textColor="@color/cardMainTextColor"
             android:layout_marginStart="8dp"
-            app:layout_constraintStart_toEndOf="@+id/labelTypeUnit"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/labelTypeUnit"
-            app:layout_constraintBottom_toBottomOf="@+id/labelTypeUnit" />
+            app:layout_constraintTop_toTopOf="@id/labelTypeUnit"
+            app:layout_constraintStart_toEndOf="@id/labelTypeUnit"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Вторая строка: Тип объекта и Этажность -->
+        <!-- Тип объекта и Этажность -->
         <TextView
             android:id="@+id/labelTypeObject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Тип объекта:"
+            android:text="Объект:"
             android:textSize="14sp"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="@color/cardSecondaryTextColor"
             android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/labelTypeUnit" />
+            app:layout_constraintTop_toBottomOf="@id/labelTypeUnit"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/textTypeObject"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Тип объекта"
-            android:textColor="@color/cardMainTextColor"
+            android:text="Грузопассажирский"
             android:textSize="16sp"
+            android:textColor="@color/cardMainTextColor"
             android:layout_marginStart="8dp"
-            app:layout_constraintStart_toEndOf="@+id/labelTypeObject"
-            app:layout_constraintEnd_toStartOf="@+id/labelFloors"
-            app:layout_constraintTop_toTopOf="@+id/labelTypeObject"
-            app:layout_constraintBottom_toBottomOf="@+id/labelTypeObject" />
+            app:layout_constraintTop_toTopOf="@id/labelTypeObject"
+            app:layout_constraintStart_toEndOf="@id/labelTypeObject"
+            app:layout_constraintEnd_toStartOf="@id/labelFloors" />
 
         <TextView
             android:id="@+id/labelFloors"
@@ -92,73 +91,45 @@
             android:layout_height="wrap_content"
             android:text="Этажей:"
             android:textSize="14sp"
-            android:textColor="@android:color/darker_gray"
-            app:layout_constraintStart_toEndOf="@+id/textTypeObject"
-            app:layout_constraintTop_toTopOf="@+id/labelTypeObject"
+            android:textColor="@color/cardSecondaryTextColor"
+            app:layout_constraintTop_toTopOf="@id/labelTypeObject"
+            app:layout_constraintStart_toEndOf="@id/textTypeObject"
             android:layout_marginStart="8dp" />
 
         <TextView
             android:id="@+id/textFloors"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0"
-            android:textColor="@color/cardMainTextColor"
+            android:text="5"
             android:textSize="16sp"
+            android:textColor="@color/cardMainTextColor"
             android:layout_marginStart="4dp"
-            app:layout_constraintStart_toEndOf="@+id/labelFloors"
-            app:layout_constraintTop_toTopOf="@+id/labelTypeObject"
+            app:layout_constraintTop_toTopOf="@id/labelFloors"
+            app:layout_constraintStart_toEndOf="@id/labelFloors"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Третья строка: Парковка -->
+        <!-- Парковка -->
         <TextView
             android:id="@+id/labelParking"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Парковка:"
             android:textSize="14sp"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="@color/cardSecondaryTextColor"
             android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/labelTypeObject" />
+            app:layout_constraintTop_toBottomOf="@id/labelTypeObject"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/textParking"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Нет"
-            android:textColor="@color/cardMainTextColor"
+            android:text="Есть"
             android:textSize="16sp"
+            android:textColor="@color/cardMainTextColor"
             android:layout_marginStart="8dp"
-            app:layout_constraintStart_toEndOf="@+id/labelParking"
-            app:layout_constraintTop_toTopOf="@+id/labelParking"
-            app:layout_constraintBottom_toBottomOf="@+id/labelParking" />
-
-        <!-- Четвертая строка: Только TO (DEL удален) -->
-        <LinearLayout
-            android:id="@+id/checkBoxesLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/labelParking">
-
-            <TextView
-                android:id="@+id/labelToCheckBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TO:"
-                android:textSize="14sp"
-                android:textColor="@android:color/darker_gray" />
-
-            <TextView
-                android:id="@+id/textToCheckBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Нет"
-                android:textColor="@color/cardMainTextColor"
-                android:textSize="16sp"
-                android:layout_marginStart="4dp" />
-        </LinearLayout>
+            app:layout_constraintTop_toTopOf="@id/labelParking"
+            app:layout_constraintStart_toEndOf="@id/labelParking" />
 
         <!-- Кнопки действий -->
         <LinearLayout
@@ -166,38 +137,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="16dp"
             android:gravity="end"
-            app:layout_constraintTop_toBottomOf="@+id/checkBoxesLayout">
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/labelParking">
 
             <Button
                 android:id="@+id/btnEdit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Редактировать"
-                android:textSize="10sp"
+                android:text="Изменить"
                 style="@style/Widget.AppCompat.Button.Borderless"
-                android:textColor="@android:color/holo_blue_dark" />
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp" />
 
             <Button
                 android:id="@+id/btnDelete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Удалить"
-                android:textSize="10sp"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:textColor="@android:color/holo_red_dark"
-                android:layout_marginStart="8dp" />
-
-            <Button
-                android:id="@+id/btnDetails"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Еще"
-                android:textSize="10sp"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:textColor="#FDCA1B"
-                android:layout_marginStart="8dp" />
+                android:textSize="14sp"
+                android:layout_marginStart="16dp" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

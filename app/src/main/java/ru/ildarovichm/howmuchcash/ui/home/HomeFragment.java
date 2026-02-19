@@ -1,34 +1,26 @@
 package ru.ildarovichm.howmuchcash.ui.home;
 
 import static android.content.Context.MODE_PRIVATE;
-import static androidx.navigation.Navigation.findNavController;
 
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -44,7 +36,6 @@ import java.util.Set;
 import ru.ildarovichm.howmuchcash.ObjectGroup;
 import ru.ildarovichm.howmuchcash.ObjectUnit;
 import ru.ildarovichm.howmuchcash.R;
-import ru.ildarovichm.howmuchcash.Unit;
 import ru.ildarovichm.howmuchcash.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment
@@ -52,9 +43,6 @@ public class HomeFragment extends Fragment
         ExpandableObjectAdapter.OnDataChangeListener {
     private FragmentHomeBinding binding;
     SharedPreferences settings;
-    ArrayList<ObjectUnit> objectUnitList;
-    private ArrayList<ObjectUnit> listLoadedFromShPrefs = new ArrayList<>();
-    private ArrayList<Boolean> checkedForDeletion = new ArrayList<>();
     private Gson gson;
     private ExpandableObjectAdapter adapter;
 
@@ -108,33 +96,42 @@ public class HomeFragment extends Fragment
 
     private void loadAndRefresh() {
         ArrayList<ObjectUnit> list = loadArrayList();
-        adapter.setData(list, ObjectGroup.GroupLevel.CITY_STREET);
+        adapter.setData(list, ObjectGroup.GroupLevel.CITY_STREET_BUILDING); // ← Изменено: группировка по дому
         updateStats(list);
-
     }
 
     private void updateStats(ArrayList<ObjectUnit> list) {
         TextView textTotalObjects = getView().findViewById(R.id.text_total_objects);
         TextView textTotalAddresses = getView().findViewById(R.id.text_total_addresses);
+        TextView textTotalLifts = getView().findViewById(R.id.text_total_lifts);
+        TextView textTotalElevators = getView().findViewById(R.id.text_total_elevators);
         TextView textTotalTo = getView().findViewById(R.id.text_total_to);
 
         int totalObjects = list.size();
 
         Set<String> addresses = new HashSet<>();
+        int lifts = 0;
+        int elevators = 0;
+        int toCount = 0;
+
         for (ObjectUnit obj : list) {
             String address = obj.getUnit().getCity() + ", " + obj.getUnit().getStreet();
             addresses.add(address);
-        }
-        int totalAddresses = addresses.size();
 
-        int totalTO = 0;
-        for (ObjectUnit obj : list) {
-            if (obj.getTOCheckBoxState()) totalTO++;
+            if ("Лифт".equals(obj.getTypeOfObjectUnit())) {
+                lifts++;
+            } else if ("Подъемник".equals(obj.getTypeOfObjectUnit())) {
+                elevators++;
+            }
+
+            if (obj.getTOCheckBoxState()) toCount++;
         }
 
         textTotalObjects.setText("Объектов: " + totalObjects);
-        textTotalAddresses.setText("Адресов: " + totalAddresses);
-        textTotalTo.setText("ТО: " + totalTO);
+        textTotalAddresses.setText("Адресов: " + addresses.size());
+        textTotalLifts.setText("Лифтов: " + lifts);
+        textTotalElevators.setText("Подъёмников: " + elevators);
+        textTotalTo.setText("ТО: " + toCount);
     }
 
     @Override
@@ -176,83 +173,148 @@ public class HomeFragment extends Fragment
     }
 
     private void showEditDialog(ObjectUnit object) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext(), R.style.CustomDialogTheme);
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_edit_object, null);
 
-        // Привязка полей
+        // Привязка элементов интерфейса
+        TextView textAddress = dialogView.findViewById(R.id.textAddress);
+        Spinner spinnerTypeUnit = dialogView.findViewById(R.id.spinnerTypeUnit);
+        Spinner spinnerTypeObject = dialogView.findViewById(R.id.spinnerTypeObject);
         EditText editFloors = dialogView.findViewById(R.id.editFloors);
         Spinner spinnerParking = dialogView.findViewById(R.id.spinnerParking);
-        CheckBox checkBoxTO = dialogView.findViewById(R.id.checkBoxTO);
-        Button btnSave = dialogView.findViewById(R.id.btnSave);
         Button btnDelete = dialogView.findViewById(R.id.btnDelete);
+        Button btnSave = dialogView.findViewById(R.id.btnSave);
 
         // Установка адреса
-        TextView textAddress = dialogView.findViewById(R.id.textAddress);
         textAddress.setText(object.getUnit().toString());
 
-        // === Настройка spinnerTypeUnit ===
+        // Настройка spinnerTypeUnit
         ArrayAdapter<CharSequence> adapterTypeUnit = ArrayAdapter.createFromResource(
                 requireContext(),
                 R.array.typeOfObjectUnitArray,
                 android.R.layout.simple_spinner_item
         );
         adapterTypeUnit.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        Spinner spinnerTypeUnit = dialogView.findViewById(R.id.spinnerTypeUnit);
         spinnerTypeUnit.setAdapter(adapterTypeUnit);
 
-        // Установка текущего значения
-        int position = adapterTypeUnit.getPosition(object.getTypeOfObjectUnit());
-        if (position == -1) position = 0; // если не найдено — первый элемент
+        // Установка выбранного значения для типа юнита
+        int position = getPositionInAdapter(adapterTypeUnit, object.getTypeOfObjectUnit());
         spinnerTypeUnit.setSelection(position);
 
-        // === Настройка spinnerTypeObject ===
-        ArrayAdapter<CharSequence> adapterTypeObject = ArrayAdapter.createFromResource(
+        // Динамическое обновление spinnerTypeObject при изменении spinnerTypeUnit
+        setupTypeObjectSpinner(spinnerTypeUnit, spinnerTypeObject, object.getTypeOfObject());
+
+        // Установка этажности
+        editFloors.setText(String.valueOf(object.getCountNumberOfFloorsOfObject()));
+
+        // Настройка spinnerParking
+        ArrayAdapter<CharSequence> adapterParking = ArrayAdapter.createFromResource(
                 requireContext(),
-                R.array.typeOfObjectArrayIfAll,
+                R.array.parking_display_options,
                 android.R.layout.simple_spinner_item
         );
-        adapterTypeObject.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        Spinner spinnerTypeObject = dialogView.findViewById(R.id.spinnerTypeObject);
-        spinnerTypeObject.setAdapter(adapterTypeObject);
+        adapterParking.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerParking.setAdapter(adapterParking);
 
-        position = adapterTypeObject.getPosition(object.getTypeOfObject());
-        if (position == -1) position = 0;
-        spinnerTypeObject.setSelection(position);
-
-        // Остальные поля
-        editFloors.setText(String.valueOf(object.getCountNumberOfFloorsOfObject()));
-        checkBoxTO.setChecked(object.getTOCheckBoxState());
-        spinnerParking.setSelection(object.getParkingAvailability() ? 0 : 1);
+        // Установка выбранного значения для парковки
+        String parkingText = object.getParkingAvailability() ? "Есть" : "Нет";
+        int parkingPosition = getPositionInAdapter(adapterParking, parkingText);
+        spinnerParking.setSelection(parkingPosition);
 
         // Создание и настройка диалога
         AlertDialog dialog = builder.setView(dialogView).create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        // Кнопка "Сохранить"
+        // Обработка кнопки "Сохранить"
         btnSave.setOnClickListener(v -> {
+            // Сохранение изменений
             object.setTypeOfObjectUnit(spinnerTypeUnit.getSelectedItem().toString());
             object.setTypeOfObject(spinnerTypeObject.getSelectedItem().toString());
-            object.setCountNumberOfFloorsOfObject(Integer.parseInt(editFloors.getText().toString()));
-            object.setParkingAvailability(spinnerParking.getSelectedItemPosition() == 0);
-            object.setTOCheckBoxState(checkBoxTO.isChecked());
 
+            try {
+                int floors = Integer.parseInt(editFloors.getText().toString().trim());
+                if (floors < 0) floors = 0;
+                object.setCountNumberOfFloorsOfObject(floors);
+            } catch (NumberFormatException e) {
+                Toast.makeText(requireContext(), "Некорректное значение этажей", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            object.setParkingAvailability("Есть".equals(spinnerParking.getSelectedItem().toString()));
+
+            // Сохранение в SharedPreferences
             saveArrayList("OBJECT_UNIT_LIST", getAllObjectsFromGroups());
             adapter.notifyDataSetChanged();
+
             dialog.dismiss();
-            Toast.makeText(requireContext(), "Сохранено", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "Объект сохранён", Toast.LENGTH_SHORT).show();
         });
 
-        // Кнопка "Удалить"
+        // Обработка кнопки "Удалить"
         btnDelete.setOnClickListener(v -> {
-            ArrayList<ObjectUnit> list = getAllObjectsFromGroups();
-            list.remove(object);
-            saveArrayList("OBJECT_UNIT_LIST", list);
-            loadAndRefresh();
-            dialog.dismiss();
-            Toast.makeText(requireContext(), "Объект удалён", Toast.LENGTH_SHORT).show();
+            new AlertDialog.Builder(requireContext())
+                    .setTitle("Удалить объект")
+                    .setMessage("Вы уверены, что хотите удалить этот объект?")
+                    .setPositiveButton("Да", (d, w) -> {
+                        ArrayList<ObjectUnit> list = getAllObjectsFromGroups();
+                        list.remove(object);
+                        saveArrayList("OBJECT_UNIT_LIST", list);
+                        loadAndRefresh();
+                        dialog.dismiss();
+                        Toast.makeText(requireContext(), "Объект удалён", Toast.LENGTH_SHORT).show();
+                    })
+                    .setNegativeButton("Отмена", null)
+                    .show();
         });
 
         dialog.show();
+    }
+
+    // Вспомогательный метод для поиска позиции в адаптере
+    private int getPositionInAdapter(ArrayAdapter<CharSequence> adapter, String value) {
+        for (int i = 0; i < adapter.getCount(); i++) {
+            if (adapter.getItem(i).toString().equals(value)) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    // Метод для динамического обновления spinnerTypeObject
+    private void setupTypeObjectSpinner(Spinner spinnerTypeUnit, Spinner spinnerTypeObject, String currentTypeObject) {
+        spinnerTypeUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedUnit = parent.getItemAtPosition(position).toString();
+                updateTypeObjectOptions(spinnerTypeObject, selectedUnit, currentTypeObject);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                updateTypeObjectOptions(spinnerTypeObject, "Лифт", currentTypeObject);
+            }
+        });
+
+        // Инициализация
+        updateTypeObjectOptions(spinnerTypeObject, spinnerTypeUnit.getSelectedItem().toString(), currentTypeObject);
+    }
+
+    private void updateTypeObjectOptions(Spinner spinner, String unitType, String currentTypeObject) {
+        int arrayResId = "Подъемник".equals(unitType)
+                ? R.array.typeOfObjectArrayIfElevator
+                : R.array.typeOfObjectArrayIfLift;
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                requireContext(),
+                arrayResId,
+                android.R.layout.simple_spinner_item
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        // Восстанавливаем предыдущее значение, если оно есть в новом списке
+        int position = getPositionInAdapter(adapter, currentTypeObject);
+        spinner.setSelection(position);
     }
 
     @Override

@@ -136,18 +136,30 @@ public class ReadWriteObjectFragment extends Fragment {
     }
 
     private ArrayList<ObjectUnit> loadArrayListJSON(StringBuilder content) {
-        String json = content.toString();
-        Type type = new TypeToken<ArrayList<ObjectUnit>>(){}.getType();
-        objectUnitList = gson.fromJson(json, type);
-        
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString("OBJECT_UNIT_LIST", json);
-        editor.apply();
+        String json = content.toString().trim();
 
-        Toast.makeText(getContext(),
-                "Загружено " + objectUnitList.size() + " объектов из файла",
-                Toast.LENGTH_SHORT).show();
-        return objectUnitList;
+        // Попробуем сделать парсинг более устойчивым
+        Gson lenientGson = new GsonBuilder()
+                .setLenient() // Разрешаем неправильный JSON
+                .create();
+
+        try {
+            Type type = new TypeToken<ArrayList<ObjectUnit>>(){}.getType();
+            objectUnitList = lenientGson.fromJson(json, type);
+
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString("OBJECT_UNIT_LIST", json);
+            editor.apply();
+
+            Toast.makeText(getContext(),
+                    "Загружено " + objectUnitList.size() + " объектов из файла",
+                    Toast.LENGTH_SHORT).show();
+            return objectUnitList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "Ошибка парсинга JSON: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            return null;
+        }
     }
 
     private void createFile(String fileName) {

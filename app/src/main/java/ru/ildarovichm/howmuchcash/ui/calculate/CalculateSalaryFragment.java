@@ -83,7 +83,7 @@ public class CalculateSalaryFragment extends Fragment {
         if (!hasVisited) {
             SharedPreferences.Editor e = settings.edit();
             e.putBoolean("hasVisited", true);
-            e.commit(); //подтвердить изменения
+            e.commit();
         }
     }
 
@@ -133,7 +133,6 @@ public class CalculateSalaryFragment extends Fragment {
             String workShiftStr = binding.editTextNumberCountWorkShiftInMonth.getText().toString().trim();
             String actualDaysStr = binding.editTextNumberCountActualDaysWorked.getText().toString().trim();
             boolean calendarHandlerIsEmpty = calendarHandler.getAllWatchDateList().toString().isEmpty();
-//            Toast.makeText(getContext(), calendarHandler.getAllWatchDateList().toString(), Toast.LENGTH_LONG).show();
             if (workShiftStr.isEmpty() || actualDaysStr.isEmpty()) {
                 Toast.makeText(getContext(), "Заполните оба поля!", Toast.LENGTH_LONG).show();
             } else if (!calendarHandlerIsEmpty) {
@@ -160,23 +159,6 @@ public class CalculateSalaryFragment extends Fragment {
                         navController.navigate(R.id.action_calculateSalaryFragment_to_readWriteObjectFragment);
                         return;
                     }
-//                    settings = getActivity().getSharedPreferences("PricePrefs", MODE_PRIVATE);
-//
-//                    ArrayList<Integer> loadedPrice = loadIntegerArrayList("PRICE_LIST");
-//                    if (loadedPrice.isEmpty()) {
-//                        Toast.makeText(getContext(), "Не заданы тарифы! Укажите цены в разделе 'Цены'", Toast.LENGTH_LONG).show();
-//                        NavController navController = findNavController(binding.getRoot());
-//                        navController.navigate(R.id.action_calculateSalaryFragment_to_nav_gallery); // Переход к PricesInputFragment
-//                        return;
-//                    }
-//                    priceForUnitLift = settings.getInt("PREF_PRICE_FOR_UNIT_LIFT", 0);
-//                    priceForUnitElevator = settings.getInt("PREF_PRICE_FOR_UNIT_ELEVATOR", 0);
-//                    extraChargeForSkyscraper = settings.getInt("PREF_EXTRA_CHARGE_FOR_SKYSCRAPER", 0);
-//                    priceForNightWatch = settings.getInt("PREF_PRICE_FOR_NIGHT_WATCH", 0);
-//                    priceForWeekendWatch = settings.getInt("PREF_PRICE_FOR_WEEKEND_WATCH", 0);
-//                    ratePublicHoliday = settings.getInt("PREF_RATE_PUBLIC_HOLIDAY", 0);
-//                    rateOrdinaryDay = settings.getInt("PREF_RATE_ORDINARY_DAY", 0);
-
                     settings = requireActivity().getSharedPreferences("PricePrefs", MODE_PRIVATE);
 
                     ArrayList<Integer> loadedPrice = loadIntegerArrayList("PRICE_LIST");

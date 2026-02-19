@@ -34,18 +34,8 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        Toast.makeText(getApplicationContext(), annotationToastText, Toast.LENGTH_LONG).show();
 
         setSupportActionBar(binding.appBarMain.toolbar);
-//
-//        binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null)
-//                        .setAnchorView(R.id.fab).show();
-//            }
-//        });
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         navigationView.setNavigationItemSelectedListener(menuItem -> {
@@ -62,8 +52,7 @@ public class MainActivity extends AppCompatActivity {
             NavigationUI.onNavDestinationSelected(menuItem, navController);
             return true;
         });
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.objectUnitListFragment, R.id.nav_home, R.id.calculateSalaryFragment, R.id.settingsMenuFragment)
                 .setOpenableLayout(drawer)

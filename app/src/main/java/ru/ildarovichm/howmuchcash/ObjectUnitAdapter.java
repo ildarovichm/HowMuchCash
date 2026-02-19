@@ -106,12 +106,10 @@ public class ObjectUnitAdapter extends RecyclerView.Adapter<ObjectUnitAdapter.Ob
             textTypeObject = itemView.findViewById(R.id.textTypeObject);
             textFloors = itemView.findViewById(R.id.textFloors);
             textParking = itemView.findViewById(R.id.textParking);
-            textToCheckBox = itemView.findViewById(R.id.textToCheckBox);
 
             // Инициализация кнопок
             btnEdit = itemView.findViewById(R.id.btnEdit);
             btnDelete = itemView.findViewById(R.id.btnDelete);
-            btnDetails = itemView.findViewById(R.id.btnDetails);
         }
 
         public void bind(ObjectUnit objectUnit, int position) {

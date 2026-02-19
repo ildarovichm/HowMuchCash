@@ -40,7 +40,7 @@ public class SalaryCalculation {
         int count = 0;
         for (ObjectUnit unit : amountObjectUnitList) {
             if ("Лифт".equals(unit.getTypeOfObjectUnit().trim()) &&
-                    unit.getCountNumberOfFloorsOfObject() >= 16) {
+                    unit.getCountNumberOfFloorsOfObject() > 16) {
                 count++;
             }
         }
