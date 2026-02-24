@@ -2,11 +2,11 @@ name: Build Android APK
 
 on:
   push:
-    branches: [ 1.0-alpha ]  # Собирать при пуше в main
+    branches: [ "1.0-alpha" ]  # Собирать при пуше в ветку 1.0-alpha
   pull_request:
-    branches: [ 1.0-alpha ]
+    branches: [ "1.0-alpha" ]
   release:
-    types: [created]    # Собирать при создании релиза
+    types: [created]  # Собирать при создании релиза
 
 jobs:
   build:
@@ -25,6 +25,17 @@ jobs:
 
       - name: Make gradlew executable
         run: chmod +x ./gradlew
+
+      - name: Decode release keystore
+        run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > app/key_one.keystore
+        shell: bash
+
+      - name: Update gradle.properties
+        run: |
+          echo "RELEASE_STORE_FILE=key_one.keystore" >> gradle.properties
+          echo "RELEASE_STORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> gradle.properties
+          echo "RELEASE_KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> gradle.properties
+          echo "RELEASE_KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> gradle.properties
 
       - name: Build Release APK
         run: ./gradlew assembleRelease
