@@ -1,12 +1,8 @@
 name: Build Android APK
 
 on:
-  push:
-    branches: [ "1.0-alpha" ]  # Собирать при пуше в ветку 1.0-alpha
-  pull_request:
-    branches: [ "1.0-alpha" ]
   release:
-    types: [created]  # Собирать при создании релиза
+    types: [created]
 
 jobs:
   build:
