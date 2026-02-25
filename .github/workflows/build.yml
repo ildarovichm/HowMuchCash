@@ -28,13 +28,8 @@ jobs:
 
       - name: Fix and Update gradle.properties
         run: |
-          # Создаем резервную копию (на всякий случай)
-          if [ -f gradle.properties ]; then
-            cp gradle.properties gradle.properties.backup
-          fi
-          
-          # Удаляем проблемную строку и создаем новый файл с правильным форматированием
-          cat > gradle.properties << EOF
+          # Создаем новый файл с правильным форматированием
+          cat > gradle.properties << 'EOF'
 # Android Gradle properties
 android.r8.strictFullModeForKeepRules=false
 
@@ -44,17 +39,11 @@ RELEASE_STORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}
 RELEASE_KEY_ALIAS=${{ secrets.KEY_ALIAS }}
 RELEASE_KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}
 EOF
-          
-          echo "=== Проверка исправленного gradle.properties (пароли скрыты) ==="
-          cat gradle.properties | grep -v PASSWORD
-        shell: bash
 
       - name: Clean and Build Release APK
         run: |
-          # Очищаем кэш и собираем заново
           ./gradlew clean
           ./gradlew assembleRelease
-        shell: bash
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
