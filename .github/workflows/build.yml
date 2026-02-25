@@ -1,8 +1,8 @@
 name: Build Android APK
 
 on:
-   push:
-     branches: [ "1.0-alpha" ]
+  push:
+    branches: [ "1.0-alpha" ]
 
 jobs:
   build:
@@ -26,15 +26,35 @@ jobs:
         run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > app/key_one.keystore
         shell: bash
 
-      - name: Update gradle.properties
+      - name: Fix and Update gradle.properties
         run: |
-          echo "RELEASE_STORE_FILE=key_one.keystore" >> gradle.properties
-          echo "RELEASE_STORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> gradle.properties
-          echo "RELEASE_KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> gradle.properties
-          echo "RELEASE_KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> gradle.properties
+          # Создаем резервную копию (на всякий случай)
+          if [ -f gradle.properties ]; then
+            cp gradle.properties gradle.properties.backup
+          fi
+          
+          # Удаляем проблемную строку и создаем новый файл с правильным форматированием
+          cat > gradle.properties << EOF
+# Android Gradle properties
+android.r8.strictFullModeForKeepRules=false
 
-      - name: Build Release APK
-        run: ./gradlew assembleRelease
+# Signing configuration
+RELEASE_STORE_FILE=key_one.keystore
+RELEASE_STORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}
+RELEASE_KEY_ALIAS=${{ secrets.KEY_ALIAS }}
+RELEASE_KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}
+EOF
+          
+          echo "=== Проверка исправленного gradle.properties (пароли скрыты) ==="
+          cat gradle.properties | grep -v PASSWORD
+        shell: bash
+
+      - name: Clean and Build Release APK
+        run: |
+          # Очищаем кэш и собираем заново
+          ./gradlew clean
+          ./gradlew assembleRelease
+        shell: bash
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
