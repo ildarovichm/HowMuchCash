@@ -34,7 +34,14 @@ jobs:
           echo "RELEASE_KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> gradle.properties
 
       - name: Build Release APK
-        run: ./gradlew assembleRelease
+        run: |
+          ./gradlew assembleRelease \
+            -PRELEASE_STORE_FILE=key_one.keystore \
+            -PRELEASE_STORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }} \
+            -PRELEASE_KEY_ALIAS=${{ secrets.KEY_ALIAS }} \
+            -PRELEASE_KEY_PASSWORD=${{ secrets.KEY_PASSWORD }} \
+            -Pandroid.r8.strictFullModeForKeepRules=false
+        
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
