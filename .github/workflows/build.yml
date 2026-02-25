@@ -24,26 +24,17 @@ jobs:
 
       - name: Decode release keystore
         run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > app/key_one.keystore
-        shell: bash
 
-      - name: Fix and Update gradle.properties
+      - name: Update gradle.properties
         run: |
-          # Создаем новый файл с правильным форматированием
-          cat > gradle.properties << 'EOF'
-# Android Gradle properties
-android.r8.strictFullModeForKeepRules=false
+          echo "android.r8.strictFullModeForKeepRules=false" > gradle.properties
+          echo "RELEASE_STORE_FILE=key_one.keystore" >> gradle.properties
+          echo "RELEASE_STORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> gradle.properties
+          echo "RELEASE_KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> gradle.properties
+          echo "RELEASE_KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> gradle.properties
 
-# Signing configuration
-RELEASE_STORE_FILE=key_one.keystore
-RELEASE_STORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}
-RELEASE_KEY_ALIAS=${{ secrets.KEY_ALIAS }}
-RELEASE_KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}
-EOF
-
-      - name: Clean and Build Release APK
-        run: |
-          ./gradlew clean
-          ./gradlew assembleRelease
+      - name: Build Release APK
+        run: ./gradlew assembleRelease
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
