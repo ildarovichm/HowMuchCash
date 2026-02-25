@@ -1,8 +1,8 @@
 name: Build Android APK
 
 on:
-  release:
-    types: [created]
+  push:
+    branches: [ "1.0-alpha" ]
 
 jobs:
   build:
@@ -26,22 +26,72 @@ jobs:
         run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > app/key_one.keystore
         shell: bash
 
-      - name: Update gradle.properties
+      - name: Debug - Check all property sources
         run: |
-          echo "RELEASE_STORE_FILE=key_one.keystore" >> gradle.properties
-          echo "RELEASE_STORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> gradle.properties
-          echo "RELEASE_KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> gradle.properties
-          echo "RELEASE_KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> gradle.properties
+          echo "=== Проверка gradle.properties в корне ==="
+          if [ -f gradle.properties ]; then
+            cat gradle.properties | grep -E "r8|RELEASE" || echo "Свойства не найдены"
+          else
+            echo "Файл gradle.properties не существует"
+          fi
+          
+          echo "=== Проверка gradle.properties в app модуле ==="
+          if [ -f app/gradle.properties ]; then
+            cat app/gradle.properties | grep -E "r8|RELEASE" || echo "Свойства не найдены"
+          else
+            echo "Файл app/gradle.properties не существует"
+          fi
+          
+          echo "=== Проверка local.properties ==="
+          if [ -f local.properties ]; then
+            cat local.properties | grep -E "r8|RELEASE" || echo "Свойства не найдены"
+          else
+            echo "Файл local.properties не существует"
+          fi
+          
+          echo "=== Проверка переменных окружения ==="
+          env | grep -E "r8|RELEASE" || echo "Переменные окружения не найдены"
+        shell: bash
 
-      - name: Build Release APK
+      - name: Fix gradle.properties
         run: |
-          ./gradlew assembleRelease \
-            -PRELEASE_STORE_FILE=key_one.keystore \
-            -PRELEASE_STORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }} \
-            -PRELEASE_KEY_ALIAS=${{ secrets.KEY_ALIAS }} \
-            -PRELEASE_KEY_PASSWORD=${{ secrets.KEY_PASSWORD }} \
-            -Pandroid.r8.strictFullModeForKeepRules=false
-        
+          # Создаем новый чистый файл gradle.properties
+          cat > gradle.properties << 'EOF'
+          # Project-wide Gradle settings
+          org.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8
+          android.useAndroidX=true
+          android.enableJetifier=true
+          kotlin.code.style=official
+          
+          # Signing configuration
+          RELEASE_STORE_FILE=key_one.keystore
+          RELEASE_STORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}
+          RELEASE_KEY_ALIAS=${{ secrets.KEY_ALIAS }}
+          RELEASE_KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}
+          
+          # R8 configuration - FIXED
+          android.r8.strictFullModeForKeepRules=false
+          EOF
+          
+          echo "=== Новый gradle.properties ==="
+          cat gradle.properties | grep -v PASSWORD
+        shell: bash
+
+      - name: Fix app/build.gradle.kts if needed
+        run: |
+          # Проверяем, нет ли жестко заданных свойств в build.gradle.kts
+          if [ -f app/build.gradle.kts ]; then
+            echo "=== Содержимое app/build.gradle.kts (первые 20 строк) ==="
+            head -20 app/build.gradle.kts
+          fi
+        shell: bash
+
+      - name: Clean and Build Release APK
+        run: |
+          # Очищаем кэш и пересобираем
+          ./gradlew clean
+          ./gradlew assembleRelease --stacktrace
+        shell: bash
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
