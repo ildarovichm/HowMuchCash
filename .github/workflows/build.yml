@@ -55,6 +55,27 @@ jobs:
         with:
           name: app-release-apk
           path: app/**/*.apk
+          if-no-files-found: warn  # Этот параметр должен быть внутри блока `with`, а не `run`          echo "RELEASE_KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> gradle.properties
+
+      - name: Build Release APK
+        run: ./gradlew assembleRelease
+
+      - name: Find APK files
+        run: |
+          echo "=== Поиск APK файлов ==="
+          find app -name "*.apk" -type f | sort
+          
+          echo "=== Содержимое папки app/build/outputs ==="
+          ls -la app/build/outputs/apk/ || echo "Папка не существует"
+          
+          echo "=== Проверка всех возможных путей ==="
+          find app/build -name "*.apk" -type f || echo "APK не найдены"
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-apk
+          path: app/**/*.apk
           if-no-files-found: warn          echo "RELEASE_KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> gradle.properties
 
       - name: Build Release APK
