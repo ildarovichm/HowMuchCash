@@ -1,0 +1,113 @@
+<resources>
+    <string name="app_name">How Much Cash</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Добро пожаловать!</string>
+    <string name="nav_header_subtitle">Рассчитать зарплату просто</string>
+    <string name="nav_header_desc">Навигация</string>
+    <string name="objectunit_menu">Объекты (Плитка)</string>
+    <string name="action_settings">Настройки</string>
+    <string name="read_write_object_fragment">Записать, прочитать таблицу объектов</string>
+
+    <string name="menu_home">Объекты</string>
+    <string name="menu_gallery">Рассчет зарплаты</string>
+    <string name="menu_input_objects">Добавить объект</string>
+    <string name="menu_settings">Настройки</string>
+    <string name="result_of_calculations">Расчетка</string>
+    <string name="menu_read_write_objects">Записать/Прочитать список объектов из файла</string>
+    <string name="menu_calculateSalary">Рассчеты зарплаты</string>
+
+    <string name="address">Введите адрес объекта</string>
+    <string name="liftcount">Введите количество лифтов      и их этажность</string>
+    <string name="elevatorcountAnnotation">Введите количество подъемников      и их этажность</string>
+    <string name="cntntDescriptionEditTextcountAnnotation">Можно объединять группами, если этажность совпадает. Например, 5 лифтов по 16 этажей каждый</string>
+    <string name="cntntDcrptnEditTextaddress">Екатеринбург, ул. Шаумяна, д. 20, п. 1</string>
+    <string name="dscrptnButtonAddUnit">Нажмите "Добавить", чтобы добавить лифты в таблицу для рассчета</string>
+    <string name="buttonAddLift">Добавить</string>
+    <string name="chooseLiftOrElevator">Что добавляем, лифт или подъемник?</string>
+    <string name="switchLift">Лифт</string>
+    <string name="switchElevator">Подъемник</string>
+    <string name="annotationForInputObjects">Для добавления объекта нажмите Добавить и заполните необходимые поля, после чего нажмите Сохранить</string>
+    <string name="annotationForEditTextAddress">Введите адрес объекта</string>
+    <string name="about_text">Калькулятор ЗП и ассистент электромехаников по лифтам</string>
+    <string name="city">Город</string>
+    <string name="street">Улица</string>
+    <string name="buildings">Дом/Строение</string>
+    <string name="entrance">Подъезд</string>
+    <string name="typeOfObjectLiftOrElevator">Лифт   или   подъемник?</string>
+    <string name="typeOfObject">\nТип объекта</string>
+    <string name="parkingAvailability">\nНаличие паркинга</string>
+    <string name="countNumberOfFloorsOfObject">\nКол-во остановок</string>
+    <string name="license">Copyright (c) 2026 Gizdatullin M.I.\nLicensed under the MIT License</string>
+    <string-array name="typeOfObjectUnitArray">
+        <item>Лифт</item>
+        <item>Подъемник</item>
+    </string-array>
+    <string-array name="typeOfObjectArrayIfLift">
+        <item>Грузопас-й</item>
+        <item>Пас-й</item>
+        <item>Грузовой</item>
+    </string-array>
+    <string-array name="typeOfObjectArrayIfElevator">
+        <item>Малый грузовой</item>
+        <item>Гидравлическая грузовая платформа</item>
+        <item>Инвалидная платформа</item>
+        <item>Эскалатор</item>
+    </string-array>
+    <string-array name="typeOfObjectArrayIfAll">
+        <item>Грузопас-й</item>
+        <item>Пас-й</item>
+        <item>Грузовой</item>
+        <item>Малый грузовой</item>
+        <item>Гидравлическая грузовая платформа</item>
+        <item>Инвалидная платформа</item>
+        <item>Эскалатор</item>
+    </string-array>
+    <string-array name="parking_display_options">
+        <item>Есть</item>
+        <item>Нет</item>
+    </string-array>
+    <string-array name="countNumberOfFloorsOfObjectArray">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
+        <item>32</item>
+        <item>33</item>
+        <item>34</item>
+        <item>35</item>
+        <item>36</item>
+        <item>37</item>
+        <item>38</item>
+        <item>39</item>
+        <item>40</item>
+    </string-array>
+    <string name="about">О программе</string>
+</resources>

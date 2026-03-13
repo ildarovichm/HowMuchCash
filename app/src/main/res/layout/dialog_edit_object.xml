@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="12dp"
+    app:cardBackgroundColor="@color/cardBackgroundColor">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+
+        <!-- Заголовок диалога -->
+        <TextView
+            android:id="@+id/textDialogTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Редактирование объекта"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/cardHeaderColor"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Адрес (только для чтения) -->
+        <TextView
+            android:id="@+id/textAddress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Адрес"
+            android:textSize="16sp"
+            android:textColor="@color/cardMainTextColor"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/textDialogTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Разделитель -->
+        <View
+            android:id="@+id/divider1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#40FFFFFF"
+            android:layout_marginVertical="12dp"
+            app:layout_constraintTop_toBottomOf="@+id/textAddress" />
+
+        <!-- Тип юнита -->
+        <TextView
+            android:id="@+id/labelTypeUnit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Тип:"
+            android:textSize="14sp"
+            android:textColor="@color/cardSecondaryTextColor"
+            app:layout_constraintTop_toBottomOf="@id/divider1"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Spinner
+            android:id="@+id/spinnerTypeUnit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@+id/labelTypeUnit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/labelTypeUnit" />
+
+        <!-- Тип объекта -->
+        <TextView
+            android:id="@+id/labelTypeObject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Объект:"
+            android:textSize="14sp"
+            android:textColor="@color/cardSecondaryTextColor"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@+id/labelTypeUnit"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Spinner
+            android:id="@+id/spinnerTypeObject"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@+id/labelTypeObject"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/labelTypeObject" />
+
+        <!-- Этажность -->
+        <TextView
+            android:id="@+id/labelFloors"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Этажей:"
+            android:textSize="14sp"
+            android:textColor="@color/cardSecondaryTextColor"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@+id/labelTypeObject"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/editFloors"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:text="0"
+            android:textColor="@color/cardMainTextColor"
+            android:textSize="16sp"
+            android:background="@null"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@+id/labelFloors"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/labelFloors" />
+
+        <!-- Парковка -->
+        <TextView
+            android:id="@+id/labelParking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Парковка:"
+            android:textSize="14sp"
+            android:textColor="@color/cardSecondaryTextColor"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@+id/labelFloors"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Spinner
+            android:id="@+id/spinnerParking"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toEndOf="@+id/labelParking"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/labelParking" />
+
+        <!-- Кнопки действий -->
+        <Button
+            android:id="@+id/btnDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Удалить"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerParking"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="8dp" />
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Сохранить"
+            style="@style/Theme.HowMuchCash"
+            android:textColor="@color/mainBackground"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerParking"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

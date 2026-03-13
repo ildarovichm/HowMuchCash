@@ -1,0 +1,55 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Базовая тема приложения -->
+    <style name="Theme.HowMuchCash" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Основные цвета -->
+        <item name="colorPrimary">@color/colorPrimary</item>              <!-- #C8CB01 -->
+        <item name="colorPrimaryVariant">@color/accentBackground</item>   <!-- #212121 -->
+        <item name="colorSecondary">@color/colorPrimary</item>            <!-- #C8CB01 -->
+        <item name="colorSecondaryVariant">@color/mainBackground</item>   <!-- #323232 -->
+
+        <!-- Цвета для текста на цветных фонах -->
+        <item name="colorOnPrimary">@android:color/black</item>           <!-- Текст на #C8CB01 -->
+        <item name="colorOnSecondary">@color/mainBackground</item>         <!-- Текст на втор. цвете -->
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColor">@color/white</item>
+        <!-- Фон по умолчанию для активити -->
+        <item name="android:windowBackground">@color/mainBackground</item> <!-- #323232 -->
+
+        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+
+        <!-- Статус бар -->
+        <item name="android:statusBarColor">@color/accentBackground</item> <!-- #212121 -->
+        <item name="android:windowLightStatusBar">false</item>             <!-- Светлые иконки -->
+
+        <!-- Навигационный бар (для Android 8.0+) -->
+        <item name="android:navigationBarColor">@color/accentBackground</item> <!-- #212121 -->
+    </style>
+
+
+    <style name="Widget.HowMuchCash.Button" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/colorPrimary</item>            <!-- #C8CB01 -->
+        <item name="android:textColor">@android:color/black</item>        <!-- Черный текст -->
+        <item name="cornerRadius">8dp</item>
+    </style>
+
+    <style name="Theme.HowMuchCash.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>              <!-- #C8CB01 фон тулбара -->
+        <item name="android:textColorPrimary">@color/colorPrimary</item> <!-- Черный текст -->
+        <item name="android:background">@color/accentBackground</item>        <!-- #C8CB01 -->
+    </style>
+
+    <style name="ThemeOverlay.CalendarView" parent="">
+        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:colorBackground">@color/mainBackground</item>
+    </style>
+
+    <!-- Оверлей для всплывающих окон -->
+    <style name="Theme.HowMuchCash.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light">
+        <item name="android:background">@color/accentBackground</item>    <!-- #212121 фон -->
+        <item name="android:textColor">@color/white</item>        <!-- Белый текст -->
+        <item name="colorPrimary">@color/colorPrimary</item>              <!-- #C8CB01 акценты -->
+        <item name="colorAccent">@color/colorPrimary</item>               <!-- #C8CB01 -->
+    </style>
+</resources>
