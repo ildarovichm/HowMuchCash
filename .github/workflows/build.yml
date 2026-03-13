@@ -1,40 +1,58 @@
 name: Build Android APK
 
 on:
-push:
-branches: [ "1.0-alpha" ]
+  push:
+    branches: [ "1.0-alpha" ]
 
 jobs:
-build:
-name: Build APK
-runs-on: ubuntu-latest
+  build:
+    name: Build APK
+    runs-on: ubuntu-latest
 
-steps:  
-  - name: Checkout code  
-    uses: actions/checkout@v4  
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-  - name: Set up JDK 17  
-    uses: actions/setup-java@v4  
-    with:  
-      java-version: '17'  
-      distribution: 'temurin'  
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
 
-  - name: Make gradlew executable  
-    run: chmod +x ./gradlew  
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
 
-  - name: Decode release keystore  
-    run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > app/key_one.keystore  
+      - name: Decode release keystore
+        run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > app/key_one.keystore
 
-  - name: Update gradle.properties  
-    run: |  
-      echo "android.r8.strictFullModeForKeepRules=false" > gradle.properties  
-      echo "RELEASE_STORE_FILE=key_one.keystore" >> gradle.properties  
-      echo "RELEASE_STORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> gradle.properties  
-      echo "RELEASE_KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> gradle.properties  
-      echo "RELEASE_KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> gradle.properties  
+      - name: Update gradle.properties
+        run: |
+          echo "android.r8.strictFullModeForKeepRules=false" > gradle.properties
+          echo "RELEASE_STORE_FILE=key_one.keystore" >> gradle.properties
+          echo "RELEASE_STORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> gradle.properties
+          echo "RELEASE_KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> gradle.properties
+          echo "RELEASE_KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> gradle.properties
 
-  - name: Build Release APK  
-    run: ./gradlew assembleRelease  
+      - name: Build Release APK
+        run: ./gradlew assembleRelease
+
+      - name: Find APK file
+        run: |
+          echo "=== Поиск APK файлов ==="
+          find app -name "*.apk" -type f | sort
+          
+          echo "=== Содержимое папки app/build/outputs ==="
+          ls -la app/build/outputs/apk/ || echo "Папка не существует"
+          
+          echo "=== Проверка всех возможных путей ==="
+          find app/build -name "*.apk" -type f || echo "APK не найдены"
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-apk
+          path: app/**/*.apk
+          if-no-files-found: warn    run: ./gradlew assembleRelease  
 
   - name: Find APK file  
     run: |  
