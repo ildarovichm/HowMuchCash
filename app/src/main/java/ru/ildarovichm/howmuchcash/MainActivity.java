@@ -10,8 +10,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
-import androidx.core.view.GravityCompat; // Импортировать GravityCompat
-
+import androidx.core.view.GravityCompat;
 import ru.ildarovichm.howmuchcash.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,43 +29,35 @@ public class MainActivity extends AppCompatActivity {
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
 
-        // Получение NavController
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
 
-        // Проверка токена при старте
         SharedPreferences prefs = getSharedPreferences("auth_prefs", MODE_PRIVATE);
         String token = prefs.getString("auth_token", null);
 
         if (token == null || token.isEmpty()) {
-            // Если токен отсутствует, показываем LoginFragment
-            navController.navigate(R.id.loginFragment);  // Переход на LoginFragment
+            navController.navigate(R.id.loginFragment);
         } else {
-            // Если токен существует, показываем nav_home (HomeFragment)
-            navController.navigate(R.id.nav_home);  // Переход на HomeFragment
+            navController.navigate(R.id.nav_home);
         }
 
-        // Обработка кликов на элементы меню
         navigationView.setNavigationItemSelectedListener(menuItem -> {
             int id = menuItem.getItemId();
 
             if (id == R.id.loginFragment) {
-                // Переход на LoginFragment
-                navController.navigate(R.id.loginFragment);  // Переход на LoginFragment
-                drawer.closeDrawer(GravityCompat.START);  // Закрыть меню с использованием GravityCompat
+                navController.navigate(R.id.loginFragment);
+                drawer.closeDrawer(GravityCompat.START);
                 return true;
             }
 
-            // Обработка других элементов меню
             mAppBarConfiguration = new AppBarConfiguration.Builder(
                     R.id.nav_home, R.id.calculateSalaryFragment, R.id.settingsMenuFragment)
                     .setOpenableLayout(drawer)
                     .build();
             NavigationUI.onNavDestinationSelected(menuItem, navController);
-            drawer.closeDrawer(GravityCompat.START);  // Закрыть меню с использованием GravityCompat
+            drawer.closeDrawer(GravityCompat.START);
             return true;
         });
 
-        // Настройка AppBar
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.calculateSalaryFragment, R.id.settingsMenuFragment)
                 .setOpenableLayout(drawer)
@@ -82,11 +73,9 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    // Удаление токена при выходе
     public void logout() {
         SharedPreferences prefs = getSharedPreferences("auth_prefs", MODE_PRIVATE);
-        prefs.edit().remove("auth_token").apply(); // Удаляем токен
-        // Переход к экрану логина
+        prefs.edit().remove("auth_token").apply();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         navController.navigate(R.id.loginFragment);
     }
