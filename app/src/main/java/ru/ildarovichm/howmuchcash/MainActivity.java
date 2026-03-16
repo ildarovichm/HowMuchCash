@@ -10,6 +10,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
+import android.view.Gravity; // Импортировать класс Gravity
+
 import ru.ildarovichm.howmuchcash.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
@@ -50,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             if (id == R.id.loginFragment) {
                 // Переход на LoginFragment
                 navController.navigate(R.id.loginFragment);  // Переход на LoginFragment
-                drawer.closeDrawer(GravityCompat.START);  // Закрыть меню
+                drawer.closeDrawer(Gravity.START);  // Закрыть меню, заменен на Gravity
                 return true;
             }
 
@@ -60,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                     .setOpenableLayout(drawer)
                     .build();
             NavigationUI.onNavDestinationSelected(menuItem, navController);
-            drawer.closeDrawer(GravityCompat.START);  // Закрыть меню
+            drawer.closeDrawer(Gravity.START);  // Закрыть меню, заменен на Gravity
             return true;
         });
 
